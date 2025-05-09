@@ -1,0 +1,67 @@
+/* --------------------------------------
+// Import
+--------------------------------------*/
+
+@import ".config/wofi/matugen/colors.css";
+
+/*--------------------------------------
+// Window
+--------------------------------------*/
+
+window {
+    border: 2px solid @primary;
+    border-radius: 0.5rem;
+    background-color: @surface;
+    font-size: 18px;
+}
+
+/*--------------------------------------
+// Layout Containers
+--------------------------------------*/
+
+#outer-box {
+    margin: 20px;
+}
+
+#inner-box {
+    margin: 5px;
+}
+
+#scroll {
+    margin: 0;
+}
+
+/*--------------------------------------
+// Input Field
+--------------------------------------*/
+
+#input {
+    margin: 20px;
+    background-color: transparent;
+    font-weight: bold;
+    color: @on_surface;
+}
+
+/*--------------------------------------
+// Entry Items
+--------------------------------------*/
+
+#entry {
+    margin: 3px;
+    border-radius: 0.5rem;
+    min-height: 40px;
+    font-weight: bold;
+}
+
+#entry #img {
+    margin: 0 20px;
+}
+
+#entry #text {
+    color: @on_surface;
+}
+
+#entry:selected {
+    outline: none;
+    background-color: @surface_variant;
+}

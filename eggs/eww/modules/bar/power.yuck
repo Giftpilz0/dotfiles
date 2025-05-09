@@ -1,0 +1,13 @@
+; ##########################################
+; ### power
+; ##########################################
+
+(defwidget bar_power []
+  (button
+    :onclick "eww open powermenu"
+    :class "bar-button"
+    (label
+      :text  ""
+    )
+  )
+)

@@ -1,0 +1,150 @@
+# Sway Config
+
+### =========================
+### 1. Variables & Modifiers
+### =========================
+
+set $mod Mod4
+include matugen/colors
+
+### =========================
+### 2. Input Configuration
+### =========================
+
+input * {
+    xkb_layout de
+    pointer_accel -0.5
+}
+
+input type:touchpad {
+    natural_scroll enabled
+    pointer_accel -0.1
+    dwt enabled
+    tap enabled
+    middle_emulation enabled
+}
+
+### =========================
+### 3. Appearance & Gaps
+### =========================
+
+gaps inner 2
+gaps outer 3
+
+default_border pixel 2
+default_floating_border pixel 2
+
+font pango:SourceCodePro Medium 11
+
+# target                 title        bg        text          indicator    border
+client.focused           $on_surface  $primary  $on_primary   $primary     $primary
+client.focused_inactive  $on_surface  $surface  $on_surface   $on_surface  $on_surface
+client.unfocused         $on_surface  $surface  $on_surface   $on_surface  $on_surface
+client.urgent            $on_surface  $error    $on_error     $on_surface  $on_surface
+client.placeholder       $on_surface  $surface  $on_surface   $on_surface  $on_surface
+client.background        $surface
+
+### =========================
+### 4. Output (Monitor) Setup
+### =========================
+
+# `swaymsg -t get_outputs`
+output "Dell Inc. DELL U2415 XKV0P9CA0VUU" position 0 0
+output "Dell Inc. DELL U2415 XKV0P9CA0VGU" position 1920 0
+output "LG Electronics LG ULTRAGEAR 311NTGY9N079" resolution 2560x1440@120Hz position 0 0
+
+set $laptop "LG Display 0x0790 Unknown"
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
+
+### =========================
+### 5. Startup Programs
+### =========================
+
+exec_always eww daemon
+exec_always eww open bar
+exec_always hyprpaper
+exec_always hypridle
+exec_always swaync
+exec_always sysutil deviceapi
+exec_always systemctl --user start hyprpolkitagent
+exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec_always gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
+exec_always gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+
+### =========================
+### 6. Keybindings
+### =========================
+
+# --- Window Controls ---
+bindsym $mod+q kill
+bindsym $mod+m exit
+bindsym $mod+f floating toggle
+bindsym $mod+e layout toggle split
+bindsym $mod+w layout tabbed
+
+# --- Launch Apps ---
+bindsym $mod+Return exec kitty
+bindsym $mod+l exec hyprlock
+bindsym $mod+d exec nautilus
+bindsym $mod+b exec firefox
+bindsym $mod+Mod1+space exec sysutil wofiwaypipe
+bindsym $mod+space exec wofi --show drun
+bindsym Mod1+space exec sysutil wofissh --terminal "kitty env TERM=xterm-256color ssh"
+bindsym Shift+Print exec grim - | wl-copy && wl-paste > ~/Bilder/Screenshot-$(date +%F_%T).png && notify-send "Screenshot of the whole screen taken" -t 2000
+bindsym Print exec sh -c 'REGION=$(slurp) || exit; grim -g "$REGION" - | wl-copy &&  wl-paste > ~/Bilder/Screenshot-$(date +%F_%T).png && notify-send "Screenshot of the region taken" -t 2000'
+
+# --- Focus Control ---
+bindsym $mod+Left focus left
+bindsym $mod+Right focus right
+bindsym $mod+Up focus up
+bindsym $mod+Down focus down
+
+# --- Window Movement ---
+bindsym $mod+Ctrl+Left move left
+bindsym $mod+Ctrl+Right move right
+bindsym $mod+Ctrl+Up move up
+bindsym $mod+Ctrl+Down move down
+
+# --- Workspaces ---
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# --- Move Focused Window to Workspace ---
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+# --- Mouse Bindings (Window Dragging/Resizing) ---
+
+# Enable moving windows with $mod + left mouse button
+# Enable resizing windows with $mod + right mouse button
+
+floating_modifier $mod normal
+
+# --- Media Keys ---
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous

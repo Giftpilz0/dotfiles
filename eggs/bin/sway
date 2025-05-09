@@ -1,0 +1,3 @@
+#!/bin/sh
+[ -f "$HOME/.config/sway/env" ] && . "$HOME/.config/sway/env"
+exec /usr/bin/sway "$@"

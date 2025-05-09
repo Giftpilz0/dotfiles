@@ -1,0 +1,5 @@
+/.git
+/.deployed_cache
+/.yolk_git
+/eggs/vim/autoload
+/eggs/vim/bundle

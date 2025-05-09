@@ -1,0 +1,159 @@
+//--------------------------------------
+// Imports
+//--------------------------------------
+
+@import "matugen/colors.scss";
+
+//--------------------------------------
+// Global Reset
+//--------------------------------------
+
+* {
+    all: unset;
+    font-weight: bold;
+}
+
+//--------------------------------------
+// Widget Mixins
+//--------------------------------------
+
+/// Core widget styling
+@mixin widget {
+    background-color: $surface;
+    color: $on_surface;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+// Widget variants
+.bar-widget {
+    @include widget;
+    border-radius: 0;
+    padding: 5px;
+}
+
+.quicksettings-widget {
+    @include widget;
+}
+
+.calendarmenu-widget {
+    @include widget;
+    padding: 30px;
+}
+
+.powermenu-widget {
+    @include widget;
+    padding: 30px;
+}
+
+//--------------------------------------
+// Button Mixins
+//--------------------------------------
+
+/// Core button styling
+@mixin button {
+    transition: 0.3s;
+
+    &:hover {
+        background-color: mix($surface_variant, $on_surface_variant, 70%);
+    }
+
+    background-color: $surface_variant;
+    border-radius: 10px;
+    margin: 2px;
+    padding: 2px 5px;
+    font-size: 1.1rem;
+}
+
+// Button variants
+.generic-button {
+    @include button;
+}
+
+.bar-button {
+    @include button;
+    background-color: $surface;
+}
+
+.slider-button {
+    @include button;
+    background-color: $surface;
+}
+
+.powermenu-button {
+    @include button;
+    padding: 10px;
+    background-color: $surface;
+}
+
+.powermenu-button {
+    @include button;
+    padding: 50px;
+    font-size: 5rem;
+}
+
+.workspace-button {
+    @include button;
+
+    &:hover {
+        background-color: $surface_variant;
+    }
+}
+
+calendar {
+    @include button;
+    background-color: $surface_variant;
+    padding: 20px;
+    font-size: 1.5rem;
+
+    &:indeterminate {
+        color: rgba($on_surface, 0.3);
+    }
+
+    &:selected {
+        background-color: mix($surface_variant, $on_surface_variant, 70%);
+    }
+}
+
+//--------------------------------------
+// Entry Mixins
+//--------------------------------------
+
+/// Core entry styling
+@mixin entry {
+    background-color: $surface;
+    border-radius: 10px;
+    margin: 5px;
+    padding: 10px;
+}
+
+// Entry variants
+.quicksettings-entry {
+    @include entry;
+}
+
+.powermenu-entry {
+    @include entry;
+}
+
+//--------------------------------------
+// Slider Styling
+//--------------------------------------
+
+// Slider track and highlight
+.slider scale trough highlight {
+    background-color: $primary;
+    border-radius: 1rem;
+
+    &:hover {
+        background-color: mix($surface_variant, $primary, 70%);
+    }
+}
+
+// Slider trough specifics
+.slider scale trough {
+    background-color: $surface_variant;
+    min-height: 15px;
+    min-width: 150px;
+    border-radius: 1rem;
+}

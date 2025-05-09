@@ -1,0 +1,100 @@
+
+set $background #0f1417
+
+set $error #ffb4ab
+
+set $error_container #93000a
+
+set $inverse_on_surface #2c3134
+
+set $inverse_primary #1f6587
+
+set $inverse_surface #dfe3e7
+
+set $on_background #dfe3e7
+
+set $on_error #690005
+
+set $on_error_container #ffdad6
+
+set $on_primary #00344b
+
+set $on_primary_container #c6e7ff
+
+set $on_primary_fixed #001e2d
+
+set $on_primary_fixed_variant #004c6b
+
+set $on_secondary #20333e
+
+set $on_secondary_container #d2e5f4
+
+set $on_secondary_fixed #0a1e28
+
+set $on_secondary_fixed_variant #374955
+
+set $on_surface #dfe3e7
+
+set $on_surface_variant #c1c7ce
+
+set $on_tertiary #332c4c
+
+set $on_tertiary_container #e7deff
+
+set $on_tertiary_fixed #1e1735
+
+set $on_tertiary_fixed_variant #4a4263
+
+set $outline #8b9298
+
+set $outline_variant #41484d
+
+set $primary #91cef5
+
+set $primary_container #004c6b
+
+set $primary_fixed #c6e7ff
+
+set $primary_fixed_dim #91cef5
+
+set $scrim #000000
+
+set $secondary #b6c9d8
+
+set $secondary_container #374955
+
+set $secondary_fixed #d2e5f4
+
+set $secondary_fixed_dim #b6c9d8
+
+set $shadow #000000
+
+set $source_color #9fa7ae
+
+set $surface #0f1417
+
+set $surface_bright #353a3d
+
+set $surface_container #1c2024
+
+set $surface_container_high #262b2e
+
+set $surface_container_highest #313539
+
+set $surface_container_low #181c1f
+
+set $surface_container_lowest #0a0f12
+
+set $surface_dim #0f1417
+
+set $surface_tint #91cef5
+
+set $surface_variant #41484d
+
+set $tertiary #cbc1e9
+
+set $tertiary_container #4a4263
+
+set $tertiary_fixed #e7deff
+
+set $tertiary_fixed_dim #cbc1e9

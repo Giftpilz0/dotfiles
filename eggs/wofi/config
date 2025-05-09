@@ -1,0 +1,10 @@
+width=850
+height=500
+show=drun
+prompt=Search...
+no_actions=true
+allow_markup=true
+allow_images=true
+insensitive=true
+image_size=28
+term=kitty
