@@ -5,6 +5,7 @@ private fn merge_into_home(enabled, templates) {
 export let eggs = #{
     bin: #{ targets: "~/.local/bin", enabled: true },
     common: #{ targets: "~/.config/common", enabled: true },
+    cosmic: #{ targets: "~/.config/cosmic", enabled: true },
     eww: #{ targets: "~/.config/eww", enabled: true },
     helix: #{ targets: "~/.config/helix", enabled: true },
     hypr: #{ targets: "~/.config/hypr", enabled: true },
