@@ -16,6 +16,7 @@ export let eggs = #{
     swaync: #{ targets: "~/.config/swaync", enabled: true },
     vim: #{ targets: "~/.config/vim", enabled: true },
     wofi: #{ targets: "~/.config/wofi", enabled: true },
+    "xdg-desktop-portal": #{ targets: "~/.config/xdg-desktop-portal", enabled: true },
 
     gtk: merge_into_home(true, []),
     inputrc: merge_into_home(true, []),
