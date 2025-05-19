@@ -11,6 +11,7 @@ export let eggs = #{
     hypr: #{ targets: "~/.config/hypr", enabled: true },
     kitty: #{ targets: "~/.config/kitty", enabled: true },
     matugen: #{ targets: "~/.config/matugen", enabled: true },
+    niri: #{ targets: "~/.config/niri", enabled: true },
     sway: #{ targets: "~/.config/sway", enabled: true },
     swaync: #{ targets: "~/.config/swaync", enabled: true },
     vim: #{ targets: "~/.config/vim", enabled: true },

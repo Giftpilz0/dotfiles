@@ -1,0 +1,136 @@
+input {
+    keyboard {
+        xkb {
+            layout "de"
+        }
+    }
+
+    touchpad {
+        tap
+        dwt
+        dwtp
+        natural-scroll
+        middle-emulation
+        accel-speed -0.1
+        scroll-method "two-finger"
+    }
+
+    mouse {
+        accel-speed -0.5
+    }
+
+    trackpoint {
+        accel-speed -0.5
+    }
+
+    warp-mouse-to-focus
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+output "Dell Inc. DELL U2415 XKV0P9CA0VUU" {
+    position x=0 y=0
+}
+
+output "Dell Inc. DELL U2415 XKV0P9CA0VGU" {
+    position x=1920 y=0
+}
+
+output "LG Electronics LG ULTRAGEAR 311NTGY9N079" {
+    mode "2560x1440@120.000"
+    position x=0 y=0
+}
+
+layout {
+    gaps 2                    // inner gaps = 2px
+    struts {                  // outer gaps = 3px
+        top    3
+        bottom 3
+        left   3
+        right  3
+    }
+
+    border {
+        width 2               // default_border & default_floating_border = 2px
+        active-color   "#7fc8ff"
+        inactive-color "#505050"
+    }
+}
+
+spawn-at-startup "eww" "daemon"
+spawn-at-startup "eww" "open" "bar"
+spawn-at-startup "hyprpaper"
+spawn-at-startup "hypridle"
+spawn-at-startup "swaync"
+spawn-at-startup "sysutil" "deviceapi"
+spawn-at-startup "systemctl" "--user" "start" "hyprpolkitagent"
+spawn-at-startup "dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP"
+spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "gtk-theme" "Adwaita"
+spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "color-scheme" "prefer-dark"
+
+binds {
+    // Window controls
+    Mod+q          { close-window; }
+    Mod+m          { quit; }
+    Mod+f          { toggle-window-floating; }
+    Mod+e          { switch-layout "next"; }
+    Mod+w          { toggle-column-tabbed-display; }
+
+    // Launchers
+    Mod+Return     { spawn "kitty"; }
+    Mod+l          { spawn "hyprlock"; }
+    Mod+d          { spawn "nautilus"; }
+    Mod+b          { spawn "firefox"; }
+    Mod+Alt+Space  { spawn "sysutil" "wofiwaypipe"; }
+    Mod+Space      { spawn "wofi" "--show" "drun"; }
+    Alt+Space      { spawn "sysutil" "wofissh" "--terminal" "kitty" "env TERM=xterm-256color ssh"; }
+
+    // Screenshots
+    Shift+Print    { spawn "sh" "-c" "REGION=$(slurp) || exit; grim -g \\\"$REGION\\\" - | wl-copy && notify-send 'Region screenshot'"; }
+    Print          { spawn "sh" "-c" "grim - | wl-copy && notify-send 'Fullscreen screenshot'"; }
+
+    // Focus navigation
+    Mod+Left       { focus-column-left; }
+    Mod+Right      { focus-column-right; }
+    Mod+Up         { focus-window-up; }
+    Mod+Down       { focus-window-down; }
+
+    // Window movement
+    Mod+Ctrl+Left  { move-column-left; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Up    { move-window-up; }
+    Mod+Ctrl+Down  { move-window-down; }
+
+    // Workspaces
+    Mod+1          { focus-workspace 1; }
+    Mod+2          { focus-workspace 2; }
+    Mod+3          { focus-workspace 3; }
+    Mod+4          { focus-workspace 4; }
+    Mod+5          { focus-workspace 5; }
+    Mod+6          { focus-workspace 6; }
+    Mod+7          { focus-workspace 7; }
+    Mod+8          { focus-workspace 8; }
+    Mod+9          { focus-workspace 9; }
+    Mod+0          { focus-workspace 10; }
+
+    Mod+Shift+1    { move-column-to-workspace 1; }
+    Mod+Shift+2    { move-column-to-workspace 2; }
+    Mod+Shift+3    { move-column-to-workspace 3; }
+    Mod+Shift+4    { move-column-to-workspace 4; }
+    Mod+Shift+5    { move-column-to-workspace 5; }
+    Mod+Shift+6    { move-column-to-workspace 6; }
+    Mod+Shift+7    { move-column-to-workspace 7; }
+    Mod+Shift+8    { move-column-to-workspace 8; }
+    Mod+Shift+9    { move-column-to-workspace 9; }
+    Mod+Shift+0    { move-column-to-workspace 10; }
+
+    // Media keys
+    XF86AudioRaiseVolume    { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86AudioLowerVolume    { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMute           { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioMicMute        { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86MonBrightnessUp     { spawn "brightnessctl" "s" "10%+"; }
+    XF86MonBrightnessDown   { spawn "brightnessctl" "s" "10%-"; }
+    XF86AudioNext           { spawn "playerctl" "next"; }
+    XF86AudioPrev           { spawn "playerctl" "previous"; }
+    XF86AudioPlay           { spawn "playerctl" "play-pause"; }
+}
