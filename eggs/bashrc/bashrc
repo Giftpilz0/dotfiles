@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+if [[ -n $BASH && -z $POSIXLY_CORRECT && ${0#-} != sh ]]; then
+  #############################
+  # Bash Options
+  #############################
+  shopt -s autocd        # Auto-cd into directories by name
+  shopt -s cdspell       # Correct minor spelling errors in 'cd'
+  shopt -s dirspell      # Correct minor spelling errors in directory names
+  shopt -s hostcomplete  # Hostname completion after '@'
+  shopt -s cmdhist       # Multi-line commands in history as single line
+
+  #############################
+  # Color Aliases
+  #############################
+  alias ls='ls --color=auto'
+  alias ip='ip --color=auto'
+  alias diff='diff --color=auto'
+  alias grep='grep --color=auto'
+  alias ssh='TERM=xterm-256color ssh'
+
+  #############################
+  # Environment Variables
+  #############################
+  export LESS='-R --use-color -Dd+r$Du+b'
+  export MANPAGER='less -R --use-color -Dd+r -Du+b'
+  export TERM='xterm-256color'
+  export XDG_CONFIG_HOME="$HOME/.config"
+
+  for dir in "$HOME/.local/bin" "$HOME/.config/common/bin" "$HOME/.cargo/bin" "$HOME/go/bin"; do
+    [[ ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
+  done
+  export PATH
+
+  #############################
+  # Useful Aliases
+  #############################
+  alias ll='ls -l'
+  alias la='ls -a'
+  alias ..='cd ..'
+  alias rm='rm -i'
+  alias cp='cp -i'
+  alias mv='mv -i'
+
+  #############################
+  # Prompt Customization
+  #############################
+  bash_prompt() {
+    # color codes
+    local reset="\[\e[0m\]"
+    local red="\[\e[1;91m\]"
+    local green="\[\e[1;32m\]"
+    local yellow="\[\e[1;33m\]"
+    local blue="\[\e[1;34m\]"
+    local cyan="\[\e[01;36m\]"
+
+    # User color: red for root, cyan otherwise
+    local user_color="$cyan"
+    [[ $UID == 0 ]] && user_color="$red"
+
+    # Git branch parser
+    parse_git_branch() {
+      git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+    }
+
+    # Directory color: blue if writable, yellow otherwise
+    local dir_color="\$(if [[ -w \$PWD ]]; then echo \"$blue\"; else echo \"$yellow\"; fi)\w"
+
+    # Prompt format
+    PS1="\[$green\]┌─ \[$user_color\]\u: $dir_color\[$green\]\n└─$\[$red\]\$(parse_git_branch) \[$reset\]"
+
+  }
+  bash_prompt
+  export PROMPT_COMMAND=bash_prompt
+fi
