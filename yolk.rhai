@@ -3,7 +3,7 @@ private fn merge_into_home(enabled, templates) {
 }
 
 export let eggs = #{
-    bashrc: #{ targets: "~/.bashrc.d/", enabled: true },
+    bashrc: #{ targets: "~/.bashrc.d", enabled: true },
     bin: #{ targets: "~/.local/bin", enabled: true },
     common: #{ targets: "~/.config/common", enabled: true },
     cosmic: #{ targets: "~/.config/cosmic", enabled: true },

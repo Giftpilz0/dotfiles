@@ -1,0 +1,11 @@
+[Unit]
+Description=Sysutil Device API service
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/sysutil deviceapi
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
