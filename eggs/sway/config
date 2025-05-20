@@ -63,12 +63,6 @@ bindswitch --reload --locked lid:off output $laptop enable
 
 exec_always eww daemon
 exec_always eww open bar
-exec_always hyprpaper
-exec_always hypridle
-exec_always swaync
-exec_always sysutil deviceapi
-exec_always systemctl --user start hyprpolkitagent
-exec_always dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec_always gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
 exec_always gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 

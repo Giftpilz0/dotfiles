@@ -1,10 +1,5 @@
 spawn-at-startup "eww" "daemon"
 spawn-at-startup "eww" "open" "bar"
-spawn-at-startup "hyprpaper"
-spawn-at-startup "hypridle"
-spawn-at-startup "swaync"
-spawn-at-startup "sysutil" "deviceapi"
-spawn-at-startup "systemctl" "--user" "start" "hyprpolkitagent"
 spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "gtk-theme" "Adwaita"
 spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "color-scheme" "prefer-dark"
 
