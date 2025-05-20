@@ -21,5 +21,6 @@ export let eggs = #{
 
     gtk: merge_into_home(true, []),
     inputrc: merge_into_home(true, []),
+    libreoffice: merge_into_home(true, []),
     systemd: merge_into_home(true, []),
 };

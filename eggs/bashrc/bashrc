@@ -47,12 +47,12 @@ if [[ -n $BASH && -z $POSIXLY_CORRECT && ${0#-} != sh ]]; then
   #############################
   bash_prompt() {
     # color codes
-    local reset="\[\e[0m\]"
-    local red="\[\e[1;91m\]"
-    local green="\[\e[1;32m\]"
-    local yellow="\[\e[1;33m\]"
-    local blue="\[\e[1;34m\]"
-    local cyan="\[\e[01;36m\]"
+    local reset="\e[0m"
+    local red="\e[1;91m"
+    local green="\e[1;32m"
+    local yellow="\e[1;33m"
+    local blue="\e[1;34m"
+    local cyan="\e[01;36m"
 
     # User color: red for root, cyan otherwise
     local user_color="$cyan"
@@ -64,12 +64,11 @@ if [[ -n $BASH && -z $POSIXLY_CORRECT && ${0#-} != sh ]]; then
     }
 
     # Directory color: blue if writable, yellow otherwise
-    local dir_color="\$(if [[ -w \$PWD ]]; then echo \"$blue\"; else echo \"$yellow\"; fi)\w"
+    local dir_color="\$(if [[ -w \$PWD ]]; then echo \"\[$blue\]\"; else echo \"\[$yellow\]\"; fi)\w"
 
     # Prompt format
     PS1="\[$green\]┌─ \[$user_color\]\u: $dir_color\[$green\]\n└─$\[$red\]\$(parse_git_branch) \[$reset\]"
 
   }
   bash_prompt
-  export PROMPT_COMMAND=bash_prompt
 fi
