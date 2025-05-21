@@ -2,11 +2,13 @@
 
 # Directories to clean up
 dirs=(
+  "$HOME/.bashrc"
   "$HOME/.bashrc.d"
-  "$HOME/.local/bin"
   "$HOME/.config/common"
   "$HOME/.config/cosmic"
   "$HOME/.config/eww"
+  "$HOME/.config/gtk-3.0"
+  "$HOME/.config/gtk-4.0"
   "$HOME/.config/helix"
   "$HOME/.config/hypr"
   "$HOME/.config/kitty"
@@ -17,6 +19,8 @@ dirs=(
   "$HOME/.config/vim"
   "$HOME/.config/wofi"
   "$HOME/.config/xdg-desktop-portal"
+  "$HOME/.inputrc"
+  "$HOME/.local/bin"
 )
 
 # Systemd services to enable & start
@@ -30,7 +34,7 @@ services=(
 )
 
 echo "======================================="
-echo "Cleaning old dotfiles directories"
+echo "Cleaning old dotfiles directories and files"
 echo "======================================="
 for d in "${dirs[@]}"; do
   if [ -L "$d" ]; then
@@ -39,8 +43,11 @@ for d in "${dirs[@]}"; do
   elif [ -d "$d" ]; then
     echo "[✔] Removing directory $d"
     rm -rf "$d"
+  elif [ -f "$d" ]; then
+    echo "[✔] Removing file $d"
+    rm -f "$d"
   else
-    echo "[✘] Skipping $d (not present or not a directory/symlink)"
+    echo "[✘] Skipping $d (not present or not a directory/symlink/file)"
   fi
 done
 

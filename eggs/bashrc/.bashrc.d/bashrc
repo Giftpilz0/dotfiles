@@ -27,7 +27,7 @@ if [[ -n $BASH && -z $POSIXLY_CORRECT && ${0#-} != sh ]]; then
   export TERM='xterm-256color'
   export XDG_CONFIG_HOME="$HOME/.config"
 
-  for dir in "$HOME/.local/bin" "$HOME/.config/common/bin" "$HOME/.cargo/bin" "$HOME/go/bin"; do
+  for dir in "$HOME/bin" "$HOME/.local/bin" "$HOME/.config/common/bin" "$HOME/.cargo/bin" "$HOME/go/bin"; do
     [[ ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
   done
   export PATH
