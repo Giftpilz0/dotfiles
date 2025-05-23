@@ -19,6 +19,7 @@ dirs=(
   "$HOME/.config/vim"
   "$HOME/.config/wofi"
   "$HOME/.config/xdg-desktop-portal"
+  "$HOME/.config/libreoffice/4/user/registrymodifications.xcu"
   "$HOME/.inputrc"
   "$HOME/.local/bin"
 )
@@ -33,7 +34,27 @@ services=(
   sysutil-deviceapi
 )
 
+echo -e "\n======================================="
+echo "Installing/upgrading RPM/prebuilt packages with DNF"
 echo "======================================="
+
+RPM_DIR="rpm/prebuilt"
+
+if [ -d "$RPM_DIR" ]; then
+  rpm_files=("$RPM_DIR"/*.rpm)
+  for rpm_pkg in "${rpm_files[@]}"; do
+    if sudo dnf install -y "$rpm_pkg" >/dev/null 2>&1; then
+      echo "[✔] DNF installed/upgraded: $rpm_pkg"
+    else
+      echo "[✘] DNF failed for: $rpm_pkg"
+    fi
+  done
+else
+  echo "[✘] Directory $RPM_DIR does not exist, skipping DNF install/upgrade"
+fi
+
+
+echo -e "\n======================================="
 echo "Cleaning old dotfiles directories and files"
 echo "======================================="
 for d in "${dirs[@]}"; do
