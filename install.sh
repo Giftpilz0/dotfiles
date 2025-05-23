@@ -54,14 +54,14 @@ done
 echo -e "\n======================================="
 echo "Running yolk sync"
 echo "======================================="
-if eggs/bin/yolk sync >/dev/null 2>&1; then
+if yolk sync >/dev/null 2>&1; then
   echo "[✔] yolk sync completed successfully"
 else
   echo "[✘] yolk sync completed with warnings"
 fi
 
 echo -e "[✔] Listing installed packages\n"
-eggs/bin/yolk list
+yolk list
 
 echo -e "\n======================================="
 echo "Setting up systemd user services"
