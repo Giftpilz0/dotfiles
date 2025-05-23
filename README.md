@@ -2,6 +2,6 @@
 
 Managed using [Yolk](https://github.com/elkowar/yolk)
 
-______________________________________________________________________
+# Packages
 
-- https://github.com/Abhra00/Matuprland
+Packages that do not come from fedora repos can be found under `rpm/`

@@ -1,5 +1,7 @@
-/.git
 /.deployed_cache
+/.git
 /.yolk_git
 /eggs/vim/autoload
 /eggs/vim/bundle
+/rpm/out
+/rpm/rpmbuild
