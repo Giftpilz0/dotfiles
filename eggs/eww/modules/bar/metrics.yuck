@@ -1,0 +1,31 @@
+; ##########################################
+; ### metrics
+; ##########################################
+
+(defwidget metric [icon text ?condition]
+  (button
+    :visible condition
+    :class "bar-button"
+    (box
+      :space-evenly false
+      :halign "center"
+      (label
+        :class "metrics-label"
+        :text icon
+      )
+      (label
+        :class "metrics-label"
+        :text text
+      )
+    )
+  )
+)
+
+(defwidget metrics []
+  (box
+    (metric :icon "" :text "${round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}%")
+    (metric :icon "" :text "${round(EWW_RAM.used_mem_perc, 0)}%")
+    (metric :icon "" :text "${round(EWW_CPU.avg, 0)}%")
+    (metric :icon "" :text "${battery.percentage}%" :condition "${battery.state == "" ? false : true}")
+  )
+)

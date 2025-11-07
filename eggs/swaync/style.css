@@ -1,0 +1,218 @@
+/*--------------------------------------
+// Import
+--------------------------------------*/
+
+@import "matugen/colors.css";
+
+/*--------------------------------------
+// Global Reset
+--------------------------------------*/
+
+* {
+    all: unset;
+    transition: 0.3s;
+    font-size: 1.2rem;
+}
+
+/*--------------------------------------
+// Notification Row Basics
+--------------------------------------*/
+
+.floating-notifications.background .notification-row {
+    padding: 1rem;
+}
+
+.control-center .notification-row {
+    margin: 0.5rem 0;
+}
+
+/*--------------------------------------
+// Notification Background
+--------------------------------------*/
+
+.floating-notifications.background .notification-row .notification-background,
+.control-center .notification-row .notification-background {
+    border-radius: 0.5rem;
+    background-color: @surface;
+    color: @on_surface;
+    border: 2px solid @primary;
+}
+
+.control-center .notification-row .notification-background {
+    background-color: @surface_variant;
+    border: 1px solid @on_surface;
+}
+
+/*--------------------------------------
+// Message Bubble & Critical Borders
+--------------------------------------*/
+
+.notification-background .notification {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: none;
+}
+
+.floating-notifications.background .notification .critical {
+    border: 1px solid @surface;
+}
+
+.control-center .notification .critical {
+    border: 1px solid @error;
+}
+
+/*--------------------------------------
+// Summary & Body Text
+--------------------------------------*/
+
+.notification-content > .summary,
+.notification-content > .body {
+    margin: 0.5rem;
+    color: @on_surface;
+}
+
+.notification-content > .summary {
+    font-weight: bold;
+}
+
+/*--------------------------------------
+// Actions Container
+--------------------------------------*/
+
+.notification > *:last-child > * .notification-action {
+    border-radius: 0.5rem;
+    color: @on_surface;
+    background-color: @surface;
+    border: 1px solid @primary;
+}
+
+.control-center .notification > *:last-child > * .notification-action {
+    border-color: @on_surface;
+}
+
+.notification-action:hover,
+.notification-action:active {
+    background-color: @surface;
+}
+
+/*--------------------------------------
+// Close Button
+--------------------------------------*/
+
+.notification-background .close-button {
+    margin: 0.5rem;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    color: @on_error_container;
+    background: @surface;
+}
+
+.notification-background .close-button:hover {
+    color: @on_surface;
+}
+
+.notification-background .close-button:active {
+    background: @surface;
+}
+
+.control-center .close-button:hover {
+    color: @surface_variant;
+}
+
+/*--------------------------------------
+// Control Center
+--------------------------------------*/
+
+.control-center {
+    border-radius: 0.5rem;
+    margin: 1rem;
+    padding: 1rem;
+    background: @surface;
+    color: @on_surface;
+}
+
+.control-center .widget-title {
+    color: @primary;
+    font-weight: bold;
+}
+
+.control-center .widget-title button {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    color: @on_error_container;
+    background: @surface;
+    border: 1px solid @on_surface;
+}
+
+.control-center .widget-title button:hover {
+    background: @surface_variant;
+}
+
+.control-center .widget-title button:active {
+    background: @surface;
+}
+
+/*--------------------------------------
+// Progress Bars & Troughs
+--------------------------------------*/
+
+progressbar,
+progress,
+trough {
+    border-radius: 0.5rem;
+}
+
+.notification.critical progress {
+    background-color: @error;
+}
+
+.notification.low progress,
+.notification.normal progress {
+    background-color: @primary;
+}
+
+trough {
+    background: @on_tertiary_fixed;
+}
+
+.control-center trough {
+    background: @error;
+}
+
+/*--------------------------------------
+// Do-Not-Disturb Slider
+--------------------------------------*/
+
+.control-center-dnd {
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+}
+
+.control-center-dnd slider {
+    background: @on_tertiary;
+    border-radius: 0.5rem;
+}
+
+/*--------------------------------------
+// DND Widget
+--------------------------------------*/
+
+.widget-dnd {
+    color: @on_surface;
+}
+
+.widget-dnd > switch {
+    border-radius: 0.5rem;
+    background: @surface;
+    border: 1px solid @on_surface;
+}
+
+.widget-dnd > switch slider {
+    margin: 0.25rem;
+    border-radius: 0.5rem;
+    background: @primary;
+}
+
+.widget-dnd > switch:checked slider {
+    background: @primary;
+}
