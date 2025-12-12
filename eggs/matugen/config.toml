@@ -2,27 +2,10 @@
 
 [config]
 
-# Hyprlock
-[templates.hyprlock]
-input_path = '~/.config/matugen/templates/hyprlock.conf'
-output_path = '~/.config/hypr/matugen/colors.conf'
-
-# Sway
-[templates.sway]
-input_path = '~/.config/matugen/templates/sway'
-output_path = '~/.config/sway/matugen/colors'
-post_hook = 'swaymsg reload'
-
 # Wofi
 [templates.wofi]
 input_path = '~/.config/matugen/templates/common.css'
 output_path = '~/.config/wofi/matugen/colors.css'
-
-# Swaync
-[templates.swaync]
-input_path = '~/.config/matugen/templates/common.css'
-output_path = '~/.config/swaync/matugen/colors.css'
-post_hook = 'swaync-client -rs'
 
 # Gtk3
 [templates.gtk3]
@@ -39,12 +22,12 @@ output_path = '~/.config/gtk-4.0/gtk.css'
 input_path = '~/.config/matugen/templates/kitty.conf'
 output_path = '~/.config/kitty/matugen/colors.conf'
 
-# EWW
-[templates.eww]
-input_path = '~/.config/matugen/templates/common.scss'
-output_path = '~/.config/eww/scss/matugen/colors.scss'
-
 # Niri
 [templates.niri]
 input_path = '~/.config/matugen/templates/niri-colors.kdl'
 output_path = '~/.config/niri/colors.kdl'
+
+# Quickshell
+[templates.quickshell]
+input_path = '~/.config/matugen/templates/quickshell-colors.qml'
+output_path = '~/.config/quickshell/common/Color.qml'

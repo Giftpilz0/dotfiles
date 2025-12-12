@@ -1,7 +1,6 @@
 include "colors.kdl"
 
-spawn-at-startup "eww" "daemon"
-spawn-at-startup "eww" "open" "bar"
+spawn-at-startup "quickshell"
 spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "gtk-theme" "Adwaita"
 spawn-at-startup "gsettings" "set" "org.gnome.desktop.interface" "color-scheme" "prefer-dark"
 
@@ -193,7 +192,7 @@ binds {
 
     // Launchers
     Mod+Return     { spawn "kitty"; }
-    Mod+l          { spawn "hyprlock"; }
+    Mod+L          { spawn "quickshell" "ipc" "call" "lockscreen" "lockScreen"; }
     Mod+d          { spawn "nautilus"; }
     Mod+b          { spawn "firefox"; }
     Mod+Alt+Space  { spawn "sysutil" "wofiwaypipe"; }
@@ -279,8 +278,8 @@ binds {
 }
 
 switch-events {
-    lid-close { spawn "notify-send" "The laptop lid is closed"; }
-    lid-open { spawn "notify-send" "The laptop lid is open"; }
+    lid-close { spawn "quickshell" "ipc" "call" "lockscreen" "lockScreen"; }
+    lid-open  { spawn "notify-send" "The laptop lid is open"; }
 }
 
 layout {

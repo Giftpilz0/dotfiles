@@ -4,34 +4,24 @@
 dirs=(
   "$HOME/.bashrc"
   "$HOME/.bashrc.d"
-  "$HOME/.config/common"
-  "$HOME/.config/eww"
   "$HOME/.config/gtk-3.0"
   "$HOME/.config/gtk-4.0"
   "$HOME/.config/helix"
-  "$HOME/.config/hypr"
   "$HOME/.config/kitty"
   "$HOME/.config/matugen"
   "$HOME/.config/niri"
-  "$HOME/.config/sway"
-  "$HOME/.config/swaync"
+  "$HOME/.config/quickshell"
   "$HOME/.config/vim"
   "$HOME/.config/wofi"
   "$HOME/.config/xdg-desktop-portal"
   "$HOME/.var/app/dev.zed.Zed/config/zed"
   "$HOME/.config/libreoffice/4/user/registrymodifications.xcu"
   "$HOME/.inputrc"
-  "$HOME/.local/bin"
 )
 
 # Systemd services to enable & start
 services=(
-  hypridle
-  hyprpolkitagent
-  swaync
-  hyprpaper
   ssh-agent
-  sysutil-deviceapi
 )
 
 echo -e "\n======================================="
