@@ -28,6 +28,7 @@ if [[ -n $BASH && -z $POSIXLY_CORRECT && ${0#-} != sh ]]; then
   export TERM='xterm-256color'
   export TERMINAL="$(which kitty)"
   export XDG_CONFIG_HOME="$HOME/.config"
+  export HISTCONTROL="erasedups:ignorespace"
 
   for dir in "$HOME/bin" "$HOME/.local/bin" "$HOME/.config/common/bin" "$HOME/.cargo/bin" "$HOME/go/bin"; do
     [[ ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
