@@ -23,7 +23,6 @@ set wildmode=longest:full,list:full
 
 " Appearance
 syntax enable
-colorscheme tender
 set background=dark
 autocmd vimenter * highlight Normal guibg=NONE ctermbg=NONE
 autocmd vimenter * highlight EndOfBuffer guibg=NONE ctermbg=NONE

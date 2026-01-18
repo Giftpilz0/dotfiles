@@ -1,0 +1,20 @@
+spawn-at-startup "quickshell"
+
+switch-events {
+    lid-close { spawn "quickshell" "ipc" "call" "lockscreen" "lockScreen"; }
+}
+
+binds {
+    Mod+L { spawn "quickshell" "ipc" "call" "lockscreen" "lockScreen"; }
+    Mod+Space { spawn "wofi" "--show" "drun"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%-"; }
+    XF86AudioMicMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SOURCE@" "toggle"; }
+    XF86AudioMute allow-when-locked=true { spawn "wpctl" "set-mute" "@DEFAULT_AUDIO_SINK@" "toggle"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+    XF86AudioPause allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn "wpctl" "set-volume" "@DEFAULT_AUDIO_SINK@" "5%+"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "s" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "s" "10%+"; }
+}

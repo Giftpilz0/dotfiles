@@ -1,4 +1,5 @@
 # https://github.com/Abhra00/Matuprland
+# https://github.com/AvengeMedia/DankMaterialShell/tree/master/quickshell/matugen/templates
 
 [config]
 
@@ -25,9 +26,14 @@ output_path = '~/.config/kitty/matugen/colors.conf'
 # Niri
 [templates.niri]
 input_path = '~/.config/matugen/templates/niri-colors.kdl'
-output_path = '~/.config/niri/colors.kdl'
+output_path = '~/.config/niri/dms/colors.kdl'
 
 # Quickshell
 [templates.quickshell]
 input_path = '~/.config/matugen/templates/quickshell-colors.qml'
 output_path = '~/.config/quickshell/common/Color.qml'
+
+# dgop
+[templates.dgop]
+input_path = '~/.config/matugen/templates/dgop.json'
+output_path = '~/.config/dgop/colors.json'

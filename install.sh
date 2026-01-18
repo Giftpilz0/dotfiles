@@ -4,6 +4,8 @@
 dirs=(
   "$HOME/.bashrc"
   "$HOME/.bashrc.d"
+  "$HOME/.config/DankMaterialShell"
+  "$HOME/.config/dgop"
   "$HOME/.config/gtk-3.0"
   "$HOME/.config/gtk-4.0"
   "$HOME/.config/helix"
@@ -23,6 +25,25 @@ dirs=(
 services=(
   ssh-agent
 )
+
+echo
+echo "======================================="
+echo "DankMaterialShell (dms) configuration"
+echo "======================================="
+read -r -p "Do you want to use DankMaterialShell (dms)? [y/N]: " use_dms
+use_dms=${use_dms,,}
+
+config_file="eggs/niri/config.kdl"
+
+if [[ "$use_dms" == "y" || "$use_dms" == "yes" ]]; then
+    enable_dms=true
+    services+=(dms)
+    services+=(dsearch)
+    sed -i '/misc\/dms\.kdl/s/^\/\/* *//; /misc\/nodms\.kdl/s/^ *\(\/\/*\)* */\/\/ /' "$config_file"
+else
+    enable_dms=false
+    sed -i '/misc\/dms\.kdl/s/^ *\(\/\/*\)* */\/\/ /; /misc\/nodms\.kdl/s/^\/\/* *//g' "$config_file"
+fi
 
 echo -e "\n======================================="
 echo "Installing yolk-git from COPR repository"
@@ -45,6 +66,27 @@ else
         fi
     else
         echo "[✘] Failed to enable COPR repository giftpilz0/misc"
+    fi
+
+    if [[ "$enable_dms" == true ]]; then
+        echo
+        echo "======================================="
+        echo "Installing dms from COPR repository"
+        echo "======================================="
+
+        echo "[✔] Enabling COPR repository avengemedia/dms"
+        if dnf copr enable -y avengemedia/dms >/dev/null 2>&1; then
+            echo "[✔] COPR repository avengemedia/dms/ enabled successfully"
+
+            echo "[✔] Installing dms from COPR"
+            if dnf install -y dms >/dev/null 2>&1; then
+                echo "[✔] dms installed successfully"
+            else
+                echo "[✘] Failed to install dms"
+            fi
+        else
+            echo "[✘] Failed to enable COPR repository avengemedia/dms"
+        fi
     fi
 fi
 

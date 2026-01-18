@@ -5,27 +5,27 @@ Singleton {
     id: color
 
     // Primary
-    property string colorPrimary: "#f3bf75"
+    property string colorPrimary: "#f4bd6e"
     property string colorOnPrimary: "#442b00"
-    property string colorPrimaryContainer: "#d5a45d"
-    property string colorOnPrimaryContainer: "#311e00"
+    property string colorPrimaryContainer: "#624000"
+    property string colorOnPrimaryContainer: "#ffddb2"
 
     // Secondary
-    property string colorSecondary: "#dec29f"
-    property string colorOnSecondary: "#3e2d14"
-    property string colorSecondaryContainer: "#574328"
-    property string colorOnSecondaryContainer: "#f9dcb7"
+    property string colorSecondary: "#ddc2a1"
+    property string colorOnSecondary: "#3e2e16"
+    property string colorSecondaryContainer: "#56442a"
+    property string colorOnSecondaryContainer: "#fadebc"
 
     // Surface
-    property string colorSurface: "#3e3832"
-    property string colorOnSurface: "#ebe1d8"
-    property string colorSurfaceVariant: "#39342e"
+    property string colorSurface: "#3f382f"
+    property string colorOnSurface: "#ede0d4"
+    property string colorSurfaceVariant: "#3b342b"
     property string colorOnSurfaceVariant: "#d3c4b4"
 
     // Background & Outline
-    property string colorOutline: "#9c8f80"
-    property string colorBackground: "#231f1a"
-    property string colorOnBackground: "#ebe1d8"
+    property string colorOutline: "#9b8f80"
+    property string colorBackground: "#251f17"
+    property string colorOnBackground: "#ede0d4"
 
     // Error
     property string colorError: "#ffb4ab"

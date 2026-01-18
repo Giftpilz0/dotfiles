@@ -1,0 +1,33 @@
+layout {
+    default-column-width { proportion 0.5; }
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    tab-indicator {
+        place-within-column
+        gap 5
+        width 5
+        length total-proportion=0.5
+        position "left"
+        gaps-between-tabs 2
+        corner-radius 8
+    }
+
+    struts {
+        left 3
+        right 3
+        top 3
+        bottom 3
+    }
+}
