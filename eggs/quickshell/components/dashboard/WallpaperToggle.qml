@@ -84,7 +84,7 @@ Rectangle {
         var newWallpaper = wallpapers[currentIndex];
         var fullPath = wallpapersDir + newWallpaper;
 
-        var cmd = "sed -i 's|property string wallpaper: \".*\"|property string wallpaper: \"" + newWallpaper + "\"|' '" + themePath + "' && " + "matugen image '" + fullPath + "' --mode dark --type scheme-content 2>&1";
+        var cmd = "sed -i 's|property string wallpaper: \".*\"|property string wallpaper: \"" + newWallpaper + "\"|' '" + themePath + "' && " + "matugen image '" + fullPath + "' --mode dark --type scheme-content --source-color-index 0 2>&1";
 
         changeProcess.command = ["bash", "-c", cmd];
         changeProcess.running = true;

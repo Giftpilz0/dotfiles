@@ -1,0 +1,13 @@
+[Unit]
+Description=Initialize Yolk from system repo if missing
+ConditionPathExists=!/root/.config/yolk
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=mkdir -p /root/.config
+ExecStart=cp -a /usr/share/ublue-niri/yolk /root/.config/yolk
+ExecStart=sh -c 'cd /root/.config/yolk/install.sh && printf "N\n" | just yolk-deploy'
+
+[Install]
+WantedBy=default.target

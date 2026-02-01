@@ -8,10 +8,15 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/executablebooks/mdformat
-    rev: "0.7.22"
+    rev: 0.7.22
     hooks:
       - id: mdformat
         additional_dependencies:
           - mdformat-gfm
           - mdformat-frontmatter
           - mdformat-footnote
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v26.1.1
+    hooks:
+      - id: ansible-lint

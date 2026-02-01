@@ -2,7 +2,19 @@
 
 Managed using [Yolk](https://github.com/elkowar/yolk)
 
-# Packages
+# Ansible Playbooks
 
-Packages that do not come from fedora repos can be found in `giftpilz0/misc` copr.
-These packages are already installed when using `https://github.com/Giftpilz0/ansible-playbook`.
+![Ansible-Lint](https://github.com/giftpilz0/dotfiles/actions/workflows/ci.yml/badge.svg)
+
+Variables are documented here:
+<https://giftpilz0.nixpi.de/docs/category/ansible-1>
+
+______________________________________________________________________
+
+## How to get started?
+
+Edit the variables (`inventory/group_vars/`)
+
+```bash
+just
+```

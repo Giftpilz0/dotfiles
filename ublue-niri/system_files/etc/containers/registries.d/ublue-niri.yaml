@@ -1,0 +1,3 @@
+docker:
+  ghcr.io/giftpilz0:
+    use-sigstore-attachments: true

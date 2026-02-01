@@ -15,5 +15,5 @@ include "override/misc.kdl"
 include "override/rules.kdl"
 
 // Niri flavor
-include "misc/dms.kdl" // DMS
-// include "misc/nodms.kdl" // DMS
+// include "misc/dms.kdl" // DMS
+include "misc/nodms.kdl" // DMS
