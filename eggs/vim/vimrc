@@ -1,0 +1,4 @@
+source $HOME/.config/vim/settings.vim
+source $HOME/.config/vim/map.vim
+source $HOME/.config/vim/functions.vim
+source $HOME/.config/vim/autocmd.vim

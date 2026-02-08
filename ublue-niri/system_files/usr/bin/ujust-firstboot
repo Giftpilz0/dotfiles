@@ -1,0 +1,31 @@
+#!/bin/bash
+set -euo pipefail
+
+FIRSTBOOT_MARKER="/var/lib/ujust-firstboot"
+
+if [[ -f "${FIRSTBOOT_MARKER}" ]]; then
+    exit 0
+fi
+
+echo "======================================="
+echo "First Boot Setup"
+echo "======================================="
+echo ""
+
+echo "Applying system-wide dconf settings..."
+if ujust dconf-apply; then
+    echo "[✔] dconf settings applied"
+else
+    echo "[✘] Failed to apply dconf settings"
+    exit 1
+fi
+
+touch "${FIRSTBOOT_MARKER}"
+
+echo ""
+echo "======================================="
+echo "[✔] First boot setup complete"
+echo "======================================="
+echo ""
+echo "Note: Individual dotfiles will be deployed on user login via yolk-init service."
+echo "      Run 'ujust dotfiles-deploy' to deploy dotfiles manually for specific users."

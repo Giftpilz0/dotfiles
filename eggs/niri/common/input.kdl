@@ -1,0 +1,80 @@
+input {
+    keyboard {
+        xkb {
+            layout "en"
+            // layout "de"
+            // variant ""
+            // options ""
+            // model ""
+            // rules ""
+        }
+
+        // repeat-delay 600
+        // repeat-rate 25
+        // track-layout "global"
+        // numlock
+    }
+
+    touchpad {
+        // off
+        tap
+        dwt
+        dwtp
+        drag true
+        drag-lock
+        natural-scroll
+        accel-speed 0.0
+        accel-profile "adaptive"
+        scroll-factor 1.0
+        scroll-method "two-finger"
+        tap-button-map "left-right-middle"
+        click-method "clickfinger"
+        middle-emulation
+        // left-handed
+    }
+
+    mouse {
+        // off
+        // natural-scroll
+        accel-speed -0.5
+        accel-profile "adaptive"
+        scroll-factor 1.0
+        scroll-method "no-scroll"
+        // middle-emulation
+        // left-handed
+    }
+
+    trackpoint {
+        // off
+        accel-speed 0.0
+        accel-profile "adaptive"
+        scroll-method "on-button-down"
+    }
+
+    trackball {
+        // off
+        accel-speed 0.0
+        accel-profile "adaptive"
+        scroll-method "on-button-down"
+    }
+
+    tablet {
+        // off
+        // map-to-output "eDP-1"
+        // calibration-matrix 1.0 0.0 0.0 0.0 1.0 0.0
+        // left-handed
+
+    }
+
+    touch {
+        // off
+        // map-to-output "eDP-1"
+    }
+
+    warp-mouse-to-focus mode="center-xy-always"
+    focus-follows-mouse max-scroll-amount="0%"
+    workspace-auto-back-and-forth
+
+    mod-key "Super"
+    mod-key-nested "Alt"
+}

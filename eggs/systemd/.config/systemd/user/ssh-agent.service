@@ -1,0 +1,13 @@
+[Unit]
+Description=SSH key agent
+After=graphical-session.target
+
+[Service]
+Type=simple
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=/usr/bin/ssh-agent -D -a ${SSH_AUTH_SOCK}
+ExecStop=/usr/bin/ssh-agent -k
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
