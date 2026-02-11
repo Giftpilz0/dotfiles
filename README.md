@@ -75,7 +75,6 @@ ujust dms-status               # Check DMS status
 
 ```bash
 ujust dconf-setup              # Apply dconf settings for all users
-ujust dconf-update             # Re-apply dconf settings
 ujust dconf-status             # Check dconf status
 ```
 

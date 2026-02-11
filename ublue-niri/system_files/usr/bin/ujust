@@ -1,3 +1,10 @@
 #!/bin/bash
 set -euo pipefail
-exec just -f "/usr/share/ujust/just/00-start.just" "$@"
+
+REPO_DIR="/usr/share/ujust/dotfiles"
+
+if [[ -d "$REPO_DIR/.git" ]]; then
+    (cd "$REPO_DIR" && git pull --rebase --autostash 2>/dev/null) || true
+fi
+
+exec just -f "$REPO_DIR/just/00-start.just" "$@"

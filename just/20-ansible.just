@@ -1,14 +1,12 @@
 [group('Ansible')]
 ansible-bootstrap:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
 
-    show_header "Ansible Bootstrap"
-
-    YOLK_DIR="${HOME}/.config/yolk"
+    header_box "Ansible Bootstrap"
 
     if [[ ! -d "${YOLK_DIR}/ansible" ]]; then
-        log_error "Ansible directory not found at ${YOLK_DIR}/ansible"
+        error_box "Ansible directory not found at ${YOLK_DIR}/ansible"
         exit 1
     fi
 
@@ -28,18 +26,18 @@ ansible-bootstrap:
     echo ""
 
     if ansible-playbook --connection=local -i "$INVENTORY" "play.yml" --extra-vars "ansible_user=${USER}"; then
-        show_success "Ansible provisioning complete"
+        success_box "Ansible provisioning complete"
     else
-        show_error "Ansible playbook execution failed"
+        error_box "Ansible playbook execution failed"
         exit 1
     fi
 
 [group('Ansible')]
 ansible-status:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
 
-    show_header "Ansible Status"
+    header_box "Ansible Status"
 
-    echo "=== Installed Collections ==="
+    info_box "Installed Collections"
     ansible-galaxy collection list 2>/dev/null || echo "  No collections installed"

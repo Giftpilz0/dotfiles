@@ -2,22 +2,27 @@
 
 set -xeuo pipefail
 
-# === install file overides ===
+# === install file overrides ===
 install -d /usr/share/ujust/
 cp -avf "/ctx/files"/. /
 
-# === setup dotfiles ===
-git clone "https://github.com/Giftpilz0/dotfiles.git" /usr/share/ujust/yolk/
+# === setup dotfiles repo ===
+# Clone the full dotfiles repo to /usr/share/ujust/dotfiles
+git clone "https://github.com/Giftpilz0/dotfiles.git" /usr/share/ujust/dotfiles/
 
+# === setup completions ===
 install -d /usr/share/bash-completion/completions /usr/share/zsh/site-functions /usr/share/fish/vendor_completions.d/
 just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > /usr/share/bash-completion/completions/ujust
 just --completions zsh | sed -E 's/([\(_" ])just/\1ujust/g' > /usr/share/zsh/site-functions/_ujust
 just --completions fish | sed -E 's/([\(_" ])just/\1ujust/g' > /usr/share/fish/vendor_completions.d/ujust.fish
 
+# === setup services ===
 systemctl enable --global yolk-init.service
 systemctl preset --global yolk-init.service
 systemctl enable yolk-init-root.service
 systemctl preset yolk-init-root.service
+systemctl enable ujust-firstboot.service
+systemctl preset ujust-firstboot.service
 
 # === install fonts ===
 mkdir -p "/usr/share/fonts/Maple Mono"
@@ -39,5 +44,3 @@ fc-cache --force --really-force --system-only --verbose
 
 # === misc ===
 echo "application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop" >> /usr/share/applications/mimeapps.list
-
-systemctl enable ujust-firstboot.service

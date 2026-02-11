@@ -1,29 +1,31 @@
 [group('Dconf')]
 dconf-setup:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    if ! is_root; then
-        if request_root "Applying dconf settings requires root privileges"; then
-            exec sudo ujust dconf-setup
-        fi
-        exit 0
-    fi
+    header_box "Applying dconf Settings"
 
-    show_header "Applying dconf Settings"
+    SELECTED=$(select_users "Select users to apply dconf settings for:")
+    [[ -z "$SELECTED" ]] && exit 0
 
-    YOLK_DIR="/usr/share/ujust/yolk"
-    DCONF_SRC="${YOLK_DIR}/misc/dconf"
+    ujust _dconf-apply "$SELECTED"
+
+[private]
+_dconf-apply USERS:
+    #!/bin/bash
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+
+    USERS="{{ USERS }}"
+
+    DCONF_SRC="${UJUST_REPO}/misc/dconf"
 
     if [[ ! -d "$DCONF_SRC" ]]; then
-        YOLK_DIR="${HOME}/.config/yolk"
-        DCONF_SRC="${YOLK_DIR}/misc/dconf"
-    fi
-
-    if [[ ! -d "$DCONF_SRC" ]]; then
-        log_warn "dconf source directory not found: $DCONF_SRC"
+        error_box "dconf source directory not found: $DCONF_SRC"
         exit 1
     fi
+
+    info_box "Installing dconf files..."
 
     if [[ -f "${DCONF_SRC}/usr/share/backgrounds/background" ]]; then
         log_info "Installing background image..."
@@ -46,44 +48,34 @@ dconf-setup:
     log_info "Updating dconf database..."
     dconf update
 
-    USERS=$(get_regular_users)
     for user in $USERS; do
         user_home=$(get_user_home "$user")
         if [[ -d "$user_home" ]]; then
             log_info "Resetting dconf for user: $user"
-            su - "$user" -c "dbus-run-session -- dconf reset -f /" 2>/dev/null || log_warn "Could not reset dconf for $user"
+            if [[ "$user" == "root" ]]; then
+                dbus-run-session -- dconf reset -f / 2>/dev/null || warn_box "Could not reset dconf for $user"
+            else
+                run_as_user "$user" bash -c "dbus-run-session -- dconf reset -f /" 2>/dev/null || warn_box "Could not reset dconf for $user"
+            fi
         fi
     done
 
-    show_success "dconf settings applied for all users"
+    success_box "dconf settings applied"
 
-[group('Dconf')]
-dconf-update: dconf-setup
-    @echo "[✔] dconf updated"
 
 [group('Dconf')]
 dconf-status:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    show_header "dconf Status"
+    header_box "dconf Status"
 
-    echo "=== Database Files ==="
+    info_box "Database Files"
     for file in /etc/dconf/profile/user /etc/dconf/db/local.d/dconf.ini; do
         if [[ -f "$file" ]]; then
-            printf "  [✔] %s\n" "$file"
+            echo "  ✔ $file"
         else
-            printf "  [✘] %s\n" "$file"
+            echo "  ✘ $file"
         fi
     done
-
-    echo ""
-    echo "=== Sources ==="
-    YOLK_DIR="${HOME}/.config/yolk"
-    DCONF_SRC="${YOLK_DIR}/misc/dconf"
-
-    if [[ -d "$DCONF_SRC" ]]; then
-        printf "  [✔] Source directory: %s\n" "$DCONF_SRC"
-    else
-        printf "  [✘] Source directory not found\n"
-    fi

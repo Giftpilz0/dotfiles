@@ -1,55 +1,67 @@
-import "/usr/share/ujust/just/10-setup.just"
-import "/usr/share/ujust/just/20-ansible.just"
-import "/usr/share/ujust/just/30-dotfiles.just"
-import "/usr/share/ujust/just/40-dms.just"
-import "/usr/share/ujust/just/50-fonts.just"
-import "/usr/share/ujust/just/60-dconf.just"
-import "/usr/share/ujust/just/70-system.just"
+import "/usr/share/ujust/dotfiles/just/10-setup.just"
+import "/usr/share/ujust/dotfiles/just/20-ansible.just"
+import "/usr/share/ujust/dotfiles/just/30-dotfiles.just"
+import "/usr/share/ujust/dotfiles/just/40-dms.just"
+import "/usr/share/ujust/dotfiles/just/50-fonts.just"
+import "/usr/share/ujust/dotfiles/just/60-dconf.just"
+import "/usr/share/ujust/dotfiles/just/70-system.just"
 
 [group('General')]
 default:
     @ujust --list
 
 [group('Maintenance')]
-update-ujust:
+update:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    if ! is_root && [[ -d "/usr/share/ujust" ]]; then
-        if request_root "This command updates system-wide ujust files"; then
-            exec sudo ujust update-ujust
-        fi
-        exit 0
+    header_box "Updating System"
+
+    if command -v bootc &>/dev/null && [[ -f /run/ostree-booted ]]; then
+        log_info "Detected bootc system"
+        bootc upgrade
+    elif command -v dnf &>/dev/null; then
+        log_info "Detected dnf-based system"
+        dnf upgrade -y
+    else
+        error_box "No supported package manager found"
+        exit 1
     fi
 
-    show_header "Updating ujust"
+    if command -v flatpak &>/dev/null; then
+        echo ""
+        if flatpak remotes 2>/dev/null | grep -q system; then
+            log_info "Updating system flatpaks..."
+            flatpak update -y 2>/dev/null || true
+        fi
+        if flatpak remotes 2>/dev/null | grep -q user; then
+            log_info "Updating user flatpaks..."
+            flatpak update --user -y 2>/dev/null || true
+        fi
+    fi
 
-    TMPDIR=$(mktemp -d)
-    trap "rm -rf $TMPDIR" EXIT
+    success_box "System update complete"
 
-    log_info "Downloading latest justfiles..."
-    git clone --depth 1 https://github.com/Giftpilz0/dotfiles.git "${TMPDIR}/dotfiles" 2>/dev/null
 
-    log_info "Installing to /usr/share/ujust/just/..."
-    mkdir -p /usr/share/ujust/just/lib
+[group('Maintenance')]
+update-ujust:
+    #!/bin/bash
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    for f in "${TMPDIR}/dotfiles/just/lib/"*.sh; do
-        [[ -f "$f" ]] || continue
-        cp "$f" /usr/share/ujust/just/lib/
-        log_info "Updated: $(basename "$f")"
-    done
+    header_box "Updating ujust"
 
-    for f in "${TMPDIR}/dotfiles/just/"*.just; do
-        [[ -f "$f" ]] || continue
-        cp "$f" /usr/share/ujust/just/
-        log_info "Updated: $(basename "$f")"
-    done
+    if ! update_repo "$UJUST_REPO"; then
+        error_box "Failed to update repository"
+        exit 1
+    fi
 
-    show_success "ujust updated successfully!"
+    success_box "ujust updated successfully!"
+
 
 [group('Maintenance')]
 update-all: update-ujust dotfiles-update update
-    @echo ""
-    @echo "======================================="
-    @echo "[✔] Full system update complete!"
-    @echo "======================================="
+    #!/bin/bash
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    header_box "Full system update complete!"

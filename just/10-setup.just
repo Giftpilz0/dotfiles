@@ -1,44 +1,60 @@
 [group('Setup')]
 setup:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    if ! is_root; then
-        if request_root "System setup requires root privileges"; then
-            exec sudo ujust setup
+    header_box "System Setup"
+
+    SELECTED=$(select_users "Select users to configure:")
+    [[ -z "$SELECTED" ]] && exit 0
+
+    declare -A COMPONENTS
+    COMPONENTS[fonts]=false
+    COMPONENTS[ansible]=false
+    COMPONENTS[dotfiles]=false
+    COMPONENTS[dconf]=false
+    COMPONENTS[dms]=false
+
+    info_box "Component Selection"
+
+    if gum confirm "Install Maple Mono fonts?"; then
+        COMPONENTS[fonts]=true
+    fi
+
+    if gum confirm "Run Ansible bootstrap?"; then
+        COMPONENTS[ansible]=true
+    fi
+
+    if gum confirm "Deploy dotfiles?"; then
+        COMPONENTS[dotfiles]=true
+        if gum confirm "Enable DankMaterialShell (DMS) by default?"; then
+            COMPONENTS[dms]=true
         fi
+    fi
+
+    if gum confirm "Apply system-wide dconf settings?"; then
+        COMPONENTS[dconf]=true
+    fi
+
+    echo ""
+    info_box "Setup Summary"
+
+    summary=""
+    [[ "${COMPONENTS[fonts]}" == "true" ]] && summary+="  ✔ Maple Mono fonts\n"
+    [[ "${COMPONENTS[ansible]}" == "true" ]] && summary+="  ✔ Ansible bootstrap\n"
+    [[ "${COMPONENTS[dotfiles]}" == "true" ]] && summary+="  ✔ Dotfiles\n"
+    [[ "${COMPONENTS[dms]}" == "true" ]] && summary+="  ✔ DankMaterialShell enabled\n"
+    [[ "${COMPONENTS[dconf]}" == "true" ]] && summary+="  ✔ System dconf settings\n"
+
+    if [[ -z "$summary" ]]; then
+        warn_box "No components selected"
         exit 0
     fi
 
-    show_header "System Setup"
-
-    INSTALL_FONTS=false
-    INSTALL_ANSIBLE=false
-    INSTALL_DOTFILES=false
-    INSTALL_DCONF=false
-    USE_DMS=false
-
-    echo "=== Component Selection ==="
+    echo -e "$summary"
     echo ""
-
-    gum confirm "Install Maple Mono fonts?" && INSTALL_FONTS=true
-    gum confirm "Run Ansible bootstrap?" && INSTALL_ANSIBLE=true
-
-    if gum confirm "Deploy dotfiles?"; then
-        INSTALL_DOTFILES=true
-        gum confirm "Enable DankMaterialShell (DMS)?" && USE_DMS=true
-    fi
-
-    gum confirm "Apply system-wide dconf settings?" && INSTALL_DCONF=true
-
-    echo ""
-    echo "=== Setup Summary ==="
-    [[ "$INSTALL_FONTS" == "true" ]] && echo "  [✔] Maple Mono fonts"
-    [[ "$INSTALL_ANSIBLE" == "true" ]] && echo "  [✔] Ansible bootstrap"
-    [[ "$INSTALL_DOTFILES" == "true" ]] && echo "  [✔] Dotfiles"
-    [[ "$USE_DMS" == "true" ]] && echo "  [✔] DankMaterialShell enabled"
-    [[ "$INSTALL_DCONF" == "true" ]] && echo "  [✔] System dconf settings"
-    echo ""
+    info_box "Selected users: $SELECTED"
 
     if ! gum confirm "Proceed with setup?"; then
         log_info "Setup cancelled"
@@ -47,104 +63,104 @@ setup:
 
     FAILED=""
 
-    if [[ "$INSTALL_FONTS" == "true" ]]; then
+    if [[ "${COMPONENTS[fonts]}" == "true" ]]; then
         echo ""
-        echo "--- Step 1: Installing Fonts ---"
-        ujust fonts-setup || { log_warn "Font installation failed"; FAILED="${FAILED}fonts "; }
+        info_box "Step 1: Installing Fonts"
+        ujust _fonts-install || { log_warn "Font installation failed"; FAILED+="fonts "; }
     fi
 
-    if [[ "$INSTALL_ANSIBLE" == "true" ]]; then
+    if [[ "${COMPONENTS[ansible]}" == "true" ]]; then
         echo ""
-        echo "--- Step 2: Ansible Bootstrap ---"
-        ujust ansible-bootstrap || { log_warn "Ansible bootstrap failed"; FAILED="${FAILED}ansible "; }
+        info_box "Step 2: Ansible Bootstrap"
+        ujust ansible-bootstrap || { log_warn "Ansible bootstrap failed"; FAILED+="ansible "; }
     fi
 
-    if [[ "$INSTALL_DOTFILES" == "true" ]]; then
+    if [[ "${COMPONENTS[dotfiles]}" == "true" ]]; then
         echo ""
-        echo "--- Step 3: Deploying Dotfiles ---"
-        ujust dotfiles-setup || { log_warn "Dotfiles deployment failed"; FAILED="${FAILED}dotfiles "; }
+        info_box "Step 3: Deploying Dotfiles"
+        for user in $SELECTED; do
+            USER_USE_DMS="${COMPONENTS[dms]}"
+            if [[ "${COMPONENTS[dms]}" == "true" ]]; then
+                if ! gum confirm "Enable DMS for $user?"; then
+                    USER_USE_DMS="false"
+                fi
+            fi
+            ujust _dotfiles-deploy-user "$user" "$USER_USE_DMS" || { log_warn "Dotfiles deployment failed for $user"; FAILED+="dotfiles-$user "; }
+        done
     fi
 
-    if [[ "$INSTALL_DCONF" == "true" ]]; then
+    if [[ "${COMPONENTS[dconf]}" == "true" ]]; then
         echo ""
-        echo "--- Step 4: Applying dconf Settings ---"
-        ujust dconf-setup || { log_warn "dconf application failed"; FAILED="${FAILED}dconf "; }
+        info_box "Step 4: Applying dconf Settings"
+        ujust _dconf-apply "$SELECTED" || { log_warn "dconf application failed"; FAILED+="dconf "; }
     fi
 
     echo ""
     if [[ -z "$FAILED" ]]; then
-        show_success "Full system setup complete!"
+        success_box "Full system setup complete!"
     else
-        show_error "Setup completed with failures: $FAILED"
+        error_box "Setup completed with failures: $FAILED"
     fi
 
     echo ""
-    echo "Next steps:"
-    echo "  - Log out and log back in for all changes to take effect"
-    [[ "$USE_DMS" == "true" ]] && echo "  - DMS services have been enabled and will start on next login"
+    info_box "Next steps:"
+    echo "  • Log out and log back in for all changes to take effect"
+    if [[ "${COMPONENTS[dms]}" == "true" ]]; then
+        echo "  • DMS services have been enabled for selected users"
+    fi
 
 [group('Setup')]
 setup-status:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    show_header "Setup Status"
+    header_box "Setup Status"
 
-    echo "=== System Type ==="
+    info_box "System Type"
     if [[ -f /run/ostree-booted ]]; then
-        printf "  [✔] Bootc/OSTree system\n"
+        echo "  ✔ Bootc/OSTree system"
         if command -v bootc &>/dev/null; then
             bootc status 2>/dev/null | head -10 | sed 's/^/    /'
         fi
     else
-        printf "  [✔] Traditional system\n"
+        echo "  ✔ Traditional system"
     fi
 
     echo ""
-    echo "=== Auto Updates ==="
+    info_box "Auto Updates"
     if systemctl is-enabled -q uupd.timer 2>/dev/null; then
-        printf "  [✔] uupd.timer enabled\n"
+        echo "  ✔ uupd.timer enabled"
     elif systemctl is-enabled -q dnf-automatic.timer 2>/dev/null; then
-        printf "  [✔] %-20s enabled\n" "dnf-automatic.timer"
+        echo "  ✔ dnf-automatic.timer enabled"
     else
-        printf "  [✘] %-20s disabled\n" "dnf-automatic.timer"
+        echo "  ✘ dnf-automatic.timer disabled"
     fi
 
     echo ""
-    echo "=== Fonts ==="
-    if fc-list : family 2>/dev/null | grep -qi maple; then
-        printf "  [✔] %-20s installed\n" "Maple Mono"
+    info_box "Fonts"
+    if are_maple_fonts_installed; then
+        echo "  ✔ Maple Mono installed"
     else
-        printf "  [✘] %-20s not found\n" "Maple Mono"
+        echo "  ✘ Maple Mono not found"
     fi
 
     echo ""
-    echo "=== DMS Status ==="
+    info_box "DMS Status"
     if is_dms_installed; then
-        printf "  [✔] %-20s installed\n" "DMS"
-        if is_service_enabled dms user 2>/dev/null; then
-            printf "  [✔] %-20s enabled\n" "dms.service"
-        else
-            printf "  [✘] %-20s disabled\n" "dms.service"
-        fi
+        echo "  ✔ DMS installed"
     else
-        printf "  [✘] %-20s not installed\n" "DMS"
+        echo "  ✘ DMS not installed"
     fi
 
     echo ""
-    echo "=== Dotfiles ==="
-    if [[ -d "${YOLK_DIR}/.git" ]]; then
-        printf "  [✔] %-20s %s\n" "Repository" "${YOLK_DIR}"
-        (
-            cd "${YOLK_DIR}"
-            printf "  [✔] %-20s %s@%s\n" "Version" "$(git branch --show-current 2>/dev/null || echo unknown)" "$(git rev-parse --short HEAD 2>/dev/null || echo unknown)"
-        )
-    else
-        printf "  [✘] %-20s not initialized\n" "Repository"
-    fi
-
-    if command -v yolk &>/dev/null; then
-        echo ""
-        echo "=== Yolk Eggs ==="
-        yolk list 2>/dev/null | head -20 || true
-    fi
+    info_box "Users"
+    for user in $(get_all_users); do
+        USER_HOME=$(get_user_home "$user")
+        YOLK_USER_DIR="$USER_HOME/.config/yolk"
+        if [[ -d "${YOLK_USER_DIR}/.git" ]]; then
+            echo "  ✔ $user: dotfiles installed"
+        else
+            echo "  ✘ $user: no dotfiles"
+        fi
+    done

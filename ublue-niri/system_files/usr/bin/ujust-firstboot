@@ -2,30 +2,36 @@
 set -euo pipefail
 
 FIRSTBOOT_MARKER="/var/lib/ujust-firstboot"
+UJUST_REPO="/usr/share/ujust/dotfiles"
+
+# Source common functions for styling
+source "$UJUST_REPO/just/lib/common.sh" 2>/dev/null || {
+    # Fallback if common.sh not available
+    header_box() { echo "=== $1 ==="; }
+    info_box() { echo "[*] $1"; }
+    success_box() { echo "[✔] $1"; }
+    error_box() { echo "[✘] $1" >&2; }
+    warn_box() { echo "[!] $1"; }
+}
 
 if [[ -f "${FIRSTBOOT_MARKER}" ]]; then
     exit 0
 fi
 
-echo "======================================="
-echo "First Boot Setup"
-echo "======================================="
-echo ""
+header_box "First Boot Setup"
 
-echo "Applying system-wide dconf settings..."
-if ujust dconf-apply; then
-    echo "[✔] dconf settings applied"
+info_box "Applying system-wide dconf settings..."
+if ujust dconf-setup 2>/dev/null; then
+    success_box "dconf settings applied"
 else
-    echo "[✘] Failed to apply dconf settings"
-    exit 1
+    warn_box "dconf setup failed or not available"
 fi
 
 touch "${FIRSTBOOT_MARKER}"
 
-echo ""
-echo "======================================="
-echo "[✔] First boot setup complete"
-echo "======================================="
-echo ""
-echo "Note: Individual dotfiles will be deployed on user login via yolk-init service."
-echo "      Run 'ujust dotfiles-deploy' to deploy dotfiles manually for specific users."
+success_box "First boot setup complete"
+
+info_box "Next steps:"
+echo "  • Individual dotfiles will be deployed on user login via yolk-init service"
+echo "  • Run 'ujust dotfiles-setup' to deploy dotfiles manually for specific users"
+echo "  • Run 'ujust setup' for full system configuration"

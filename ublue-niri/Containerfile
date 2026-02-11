@@ -3,7 +3,7 @@ FROM scratch AS ctx
 COPY ublue-niri/build_files /build
 COPY ublue-niri/system_files /files
 COPY ublue-niri/cosign.pub /files/etc/pki/containers/ublue-niri.pub
-COPY just /files/usr/share/ujust/just
+COPY just /files/usr/share/ujust/dotfiles/just
 COPY Justfile /Justfile
 COPY ansible /ansible
 

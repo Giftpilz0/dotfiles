@@ -1,11 +1,12 @@
 [group('Fonts')]
 fonts-setup:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    show_header "Font Setup"
+    header_box "Font Setup"
 
-    CHOICE=$(gum choose --header="Font Action" \
+    CHOICE=$(show_menu "Font Action" \
         "Install Maple Mono fonts" \
         "Remove Maple Mono fonts" \
         "Cancel")
@@ -25,16 +26,16 @@ fonts-setup:
 [private]
 _fonts-install:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
 
-    if ! is_root; then
-        if request_root "Font installation requires root privileges"; then
-            exec sudo ujust _fonts-install
+    info_box "Installing Maple Mono Fonts"
+
+    if are_maple_fonts_installed; then
+        success_box "Maple Mono fonts are already installed"
+        if ! gum confirm "Reinstall anyway?"; then
+            exit 0
         fi
-        exit 0
     fi
-
-    show_header "Installing Maple Mono Fonts"
 
     FONT_DIR="/usr/share/fonts"
     mkdir -p "${FONT_DIR}/Maple Mono Variable"
@@ -49,7 +50,7 @@ _fonts-install:
         jq -r '.assets[] | select(.name == "MapleMono-Variable.zip") | .browser_download_url')
 
     if [[ -z "$LATEST_URL" || "$LATEST_URL" == "null" ]]; then
-        log_error "Could not find Maple Mono Variable download URL"
+        error_box "Could not find Maple Mono Variable download URL"
         exit 1
     fi
 
@@ -63,7 +64,7 @@ _fonts-install:
         jq -r '.assets[] | select(.name == "MapleMono-NF.zip") | .browser_download_url')
 
     if [[ -z "$NF_URL" || "$NF_URL" == "null" ]]; then
-        log_error "Could not find Maple Mono NF download URL"
+        error_box "Could not find Maple Mono NF download URL"
         exit 1
     fi
 
@@ -74,21 +75,14 @@ _fonts-install:
     log_info "Updating font cache..."
     fc-cache --force --system-only
 
-    show_success "Maple Mono fonts installed successfully"
+    success_box "Maple Mono fonts installed successfully"
 
 [private]
 _fonts-remove:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
 
-    if ! is_root; then
-        if request_root "Removing fonts requires root privileges"; then
-            exec sudo ujust _fonts-remove
-        fi
-        exit 0
-    fi
-
-    show_header "Removing Maple Mono Fonts"
+    info_box "Removing Maple Mono Fonts"
 
     FONT_DIR="/usr/share/fonts"
 
@@ -104,25 +98,26 @@ _fonts-remove:
 
     fc-cache --force --system-only
 
-    show_success "Maple Mono fonts removed"
+    success_box "Maple Mono fonts removed"
 
 [group('Fonts')]
 fonts-status:
     #!/bin/bash
-    source "/usr/share/ujust/just/lib/common.sh"
+    source "/usr/share/ujust/dotfiles/just/lib/common.sh"
+    elevate
 
-    show_header "Font Status"
+    header_box "Font Status"
 
-    if fc-list : family | grep -qi maple; then
-        printf "  [✔] %-20s installed\n" "Maple Mono"
+    if are_maple_fonts_installed; then
+        echo "  ✔ Maple Mono installed"
     else
-        printf "  [✘] %-20s not installed\n" "Maple Mono"
+        echo "  ✘ Maple Mono not installed"
     fi
 
     echo ""
-    echo "=== Font Directories ==="
+    info_box "Font Directories"
     for dir in /usr/share/fonts/Maple*; do
         if [[ -d "$dir" ]]; then
-            printf "  [✔] %s\n" "$dir"
+            echo "  ✔ $dir"
         fi
     done
