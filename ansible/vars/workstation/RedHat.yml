@@ -25,6 +25,7 @@ packages_additional_package:
   - git-core
   - gitui
   - gnome-disk-utility
+  - gnupg2-scdaemon
   - gum
   - gvfs-archive
   - gvfs-mtp
