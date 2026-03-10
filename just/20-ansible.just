@@ -13,8 +13,8 @@ ansible-bootstrap:
     cd "${YOLK_DIR}/ansible"
 
     log_info "Installing Ansible collections..."
-    ansible-galaxy collection install --force "git+https://github.com/Giftpilz0/ansible-collection-general.git" >/dev/null 2>&1 || log_warn "Failed to install general collection"
-    ansible-galaxy collection install --force "git+https://github.com/Giftpilz0/ansible-collection-server.git" >/dev/null 2>&1 || log_warn "Failed to install server collection"
+    ansible-galaxy collection install --force "git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/general" >/dev/null 2>&1 || log_warn "Failed to install general collection"
+    ansible-galaxy collection install --force "git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/server" >/dev/null 2>&1 || log_warn "Failed to install server collection"
 
     INVENTORY="inventory/workstation"
     if [[ -f /run/ostree-booted ]] || [[ -f /run/.containerenv ]]; then
