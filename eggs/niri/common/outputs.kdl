@@ -20,6 +20,12 @@ output "Dell Inc. Dell U4919DW JTSZWP2" {
     mode "5120x1440@59.977"
     scale 1
     position x=0 y=0
+    layout {
+        preset-column-widths {
+            proportion 0.25
+            proportion 0.5
+        }
+    }
 }
 
 output "LG Electronics LG ULTRAGEAR 311NTGY9N079" {

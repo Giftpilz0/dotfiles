@@ -53,6 +53,7 @@ packages_additional_package:
   - zstd
   - brightnessctl # applications for windowmanager
   - fontawesome-fonts-all
+  - fuzzel
   - gnome-keyring
   - gnome-keyring-pam
   - google-noto-emoji-fonts

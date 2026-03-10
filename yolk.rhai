@@ -5,6 +5,7 @@ private fn merge_into_home(enabled, templates) {
 export let eggs = #{
     dgop: #{ targets: "~/.config/dgop", enabled: true },
     DankMaterialShell: #{ targets: "~/.config/DankMaterialShell", enabled: true },
+    fuzzel: #{ targets: "~/.config/fuzzel", enabled: true },
     helix: #{ targets: "~/.config/helix", enabled: true },
     kitty: #{ targets: "~/.config/kitty", enabled: true },
     matugen: #{ targets: "~/.config/matugen", enabled: true },

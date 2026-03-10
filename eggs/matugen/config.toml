@@ -37,3 +37,8 @@ output_path = '~/.config/quickshell/common/Color.qml'
 [templates.dgop]
 input_path = '~/.config/matugen/templates/dgop.json'
 output_path = '~/.config/dgop/colors.json'
+
+# Fuzzel
+[templates.fuzzel]
+input_path = '~/.config/matugen/templates/fuzzel.ini'
+output_path = '~/.config/fuzzel/colors.ini'

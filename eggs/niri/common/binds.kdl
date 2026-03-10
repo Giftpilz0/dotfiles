@@ -66,10 +66,10 @@ binds {
     Print hotkey-overlay-title="Screenshot (Interactive)" { screenshot; }
     Shift+Print hotkey-overlay-title="Screenshot Screen" { screenshot-screen; }
     Mod+m hotkey-overlay-title="Quit Niri" { quit; }
-    Mod+Alt+Space hotkey-overlay-title="Wofi Waypipe" { spawn "sysutil" "wofiwaypipe"; }
+    Mod+Alt+Space hotkey-overlay-title="Launch Waypipe" { spawn "sysutil" "waypipelauncher"; }
     Mod+Return hotkey-overlay-title="Kitty" { spawn "kitty"; }
     Mod+b hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Mod+d hotkey-overlay-title="Nautilus" { spawn "nautilus"; }
-    Alt+Space { spawn "sysutil" "wofissh" "--terminal" "kitty env TERM=xterm-256color ssh"; }
+    Alt+Space { spawn "sysutil" "sshlauncher" "--terminal" "kitty env TERM=xterm-256color ssh"; }
     Mod+Tab hotkey-overlay-title="Toggle Overview" { toggle-overview; }
 }

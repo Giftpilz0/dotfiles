@@ -1,4 +1,4 @@
-DOTFILES_PATHS := "${HOME}/.bashrc,${HOME}/.bashrc.d,${HOME}/.config/DankMaterialShell,${HOME}/.config/dgop,${HOME}/.config/gtk-3.0,${HOME}/.config/gtk-4.0,${HOME}/.config/helix,${HOME}/.config/kitty,${HOME}/.config/matugen,${HOME}/.config/niri,${HOME}/.config/quickshell,${HOME}/.config/vim,${HOME}/.config/wofi,${HOME}/.config/xdg-desktop-portal,${HOME}/.var/app/dev.zed.Zed/config/zed,${HOME}/.config/libreoffice/4/user/registrymodifications.xcu,${HOME}/.inputrc,${HOME}/.config/systemd"
+DOTFILES_PATHS := "${HOME}/.bashrc,${HOME}/.bashrc.d,${HOME}/.config/DankMaterialShell,${HOME}/.config/dgop,${HOME}/.config/gtk-3.0,${HOME}/.config/gtk-4.0,${HOME}/.config/helix,${HOME}/.config/kitty,${HOME}/.config/matugen,${HOME}/.config/niri,${HOME}/.config/quickshell,${HOME}/.config/vim,${HOME}/.config/wofi,${HOME}/.config/fuzzel,${HOME}/.config/xdg-desktop-portal,${HOME}/.var/app/dev.zed.Zed/config/zed,${HOME}/.config/libreoffice/4/user/registrymodifications.xcu,${HOME}/.inputrc,${HOME}/.config/systemd"
 
 [group('Dotfiles')]
 dotfiles-setup:
