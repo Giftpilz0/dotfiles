@@ -1,7 +1,7 @@
 input {
     keyboard {
         xkb {
-            layout "en"
+            layout "us,de"
             // layout "de"
             // variant ""
             // options ""

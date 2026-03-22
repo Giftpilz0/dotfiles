@@ -53,7 +53,7 @@ PopupWindow {
         radius: Theme.barRadius
 
         anchors.leftMargin: Theme.dashboardMargin
-        anchors.rightMargin: 0
+        anchors.rightMargin: Theme.dashboardMargin
         anchors.topMargin: Theme.dashboardMargin
         anchors.bottomMargin: Theme.dashboardMargin
 

@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 
 import "../../common"
+import "../data"
 
 Item {
     id: barRight
@@ -14,6 +15,26 @@ Item {
 
         anchors.right: barRight.right
         anchors.verticalCenter: barRight.verticalCenter
+
+        BarWidget {
+            id: keyboardLayoutWidget
+
+            isButton: true
+
+            onClick: function () {
+                KeyboardLayouts.switchNext();
+            }
+
+            Text {
+                id: layoutLabel
+                anchors.centerIn: parent
+                text: KeyboardLayouts.currentShortLabel
+                color: Color.colorOnBackground
+                font.family: Theme.barFont.family
+                font.pixelSize: Theme.barFont.pixelSize - 1
+                font.bold: Theme.barFont.bold
+            }
+        }
 
         BarWidget {
             id: notificationWidget
