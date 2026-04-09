@@ -21,7 +21,7 @@ elevate() {
 }
 
 check_deps() {
-    deps=("just" "gum" "git" "curl" "jq" "fontconfig" "unzip")
+    deps=("just" "gum" "git" "curl" "jq" "fontconfig" "unzip" "dconf" "python3-dnf")
     missing=()
 
     for dep in "${deps[@]}"; do
