@@ -1,0 +1,37 @@
+---
+name: Build installer ISO
+
+# yamllint disable-line rule:truthy
+on:
+  workflow_dispatch:
+
+env:
+  IMAGE_NAME: fedora-bootc-niri
+  IMAGE_REF: ghcr.io/${{ github.repository_owner }}/fedora-bootc-niri:latest
+
+jobs:
+  build-installer:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      packages: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Just
+        uses: extractions/setup-just@v4
+
+      - name: Build installer ISO
+        id: build-iso
+        env:
+          IMAGE_FULL: ${{ env.IMAGE_REF }}
+        run: just installer-iso
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: installer-iso
+          path: output
+          if-no-files-found: error

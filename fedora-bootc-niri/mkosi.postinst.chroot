@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -xeuo pipefail
+
+# ============================================================
+# Customize os-release
+# ============================================================
+
+HOME_URL="https://github.com/Giftpilz0/dotfiles"
+
+sed -i -f - /usr/lib/os-release <<EOF
+s|^NAME=.*|NAME="fedora-bootc-niri"|
+s|^PRETTY_NAME=.*|PRETTY_NAME="fedora-bootc-niri (Fedora Linux)"|
+s|^HOME_URL=.*|HOME_URL="${HOME_URL}"|
+s|^BUG_REPORT_URL=.*|BUG_REPORT_URL="${HOME_URL}/issues"|
+s|^SUPPORT_URL=.*|SUPPORT_URL="${HOME_URL}/issues"|
+s|^DOCUMENTATION_URL=.*|DOCUMENTATION_URL="${HOME_URL}"|
+EOF
+
+# ============================================================
+# Copy mutable RPM DB into the bootc-friendly location
+# ============================================================
+
+RPM_MUT_DB="/usr/lib/sysimage/rpm"
+RPM_OSTREE_DB="/usr/share/rpm"
+mkdir -p "$RPM_OSTREE_DB"
+rsync -av "$RPM_MUT_DB/" "$RPM_OSTREE_DB/" 1>&2 2>/dev/null
+
+# Shell completions for ujust
+# ============================================================
+
+install -d /usr/share/bash-completion/completions /usr/share/zsh/site-functions /usr/share/fish/vendor_completions.d/
+just --completions bash | sed -E 's/([\(_" ])just/\1ujust/g' > /usr/share/bash-completion/completions/ujust
+just --completions zsh  | sed -E 's/([\(_" ])just/\1ujust/g' > /usr/share/zsh/site-functions/_ujust
+just --completions fish | sed -E 's/([\(_" ])just/\1ujust/g' > /usr/share/fish/vendor_completions.d/ujust.fish
+
+# ============================================================
+# Flathub repository definition
+# ============================================================
+
+# ============================================================
+# PAM: enable gnome-keyring for login sessions
+# ============================================================
+
+sed --sandbox -i \
+    -e '/gnome_keyring.so/ s/-auth/auth/' \
+    -e '/gnome_keyring.so/ s/-session/session/' \
+    /etc/pam.d/login 2>/dev/null || true
+
+# ============================================================
+# Automatic update policy: switch to bootc
+# ============================================================
+
+sed -i 's|^ExecStart=.*|ExecStart=/usr/bin/bootc update --quiet|' \
+    /usr/lib/systemd/system/bootc-fetch-apply-updates.service
+
+# ============================================================
+# Misc
+# ============================================================
+
+echo "application/vnd.flatpak.ref=io.github.kolunmi.Bazaar.desktop" >> /usr/share/applications/mimeapps.list
+
+# ============================================================
+# Verify key files are present
+# ============================================================
+
+stat /usr/share/pki/containers/fedora-bootc-niri.pub
+stat /usr/share/factory/etc/containers/policy.json
+stat /usr/lib/bootc/install.toml
+stat /usr/lib/systemd/system/flatpak-add-flathub-repos.service
+stat /usr/lib/systemd/system/flatpak-preinstall.service
+stat /usr/bin/ujust
+stat /usr/lib/systemd/system-preset/10-fedora-bootc-niri.preset
+stat /usr/lib/systemd/system/bootc-fetch-apply-updates.service
+stat /usr/lib/systemd/system/uupd.service
+stat /usr/share/flatpak/remotes.d/flathub.flatpakrepo
+stat /usr/share/flatpak/preinstall.d/fedora-bootc-niri.preinstall
+stat /usr/share/ujust/just/00-start.just
+stat /usr/lib/dracut/dracut.conf.d/40-fedora-bootc-niri.conf

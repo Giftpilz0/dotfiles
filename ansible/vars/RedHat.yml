@@ -1,0 +1,13 @@
+---
+package_manifest: "{{ lookup('file', playbook_dir ~ '/vars/package-manifest.json') | from_json }}"
+
+packages_group_package: "{{ package_manifest.package_groups }}"
+packages_common_package: "{{ package_manifest.common_packages }}"
+packages_bootc_package: "{{ package_manifest.bootc_packages }}"
+packages_additional_package: "{{ packages_group_package + packages_common_package + (packages_bootc_package if system_is_bootc | default(false) else []) }}"
+
+packages_rpmfusion_package_state: skip
+
+packages_common_copr_repos: "{{ package_manifest.copr_repos.common }}"
+packages_bootc_copr_repos: "{{ package_manifest.copr_repos.bootc }}"
+packages_copr_repos: "{{ packages_common_copr_repos + (packages_bootc_copr_repos if system_is_bootc | default(false) else []) }}"

@@ -1,0 +1,36 @@
+{{ if and (eq .chezmoi.os "linux") (ne .chezmoi.username "root") -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -n "${CHEZMOI_SKIP_ONLINE_DOWNLOADS:-}" ]]; then
+    exit 0
+fi
+
+system_fonts_installed() {
+    [[ -d /usr/share/fonts/Maple\ Mono ]] && [[ -d /usr/share/fonts/Maple\ Mono\ NF ]]
+}
+
+user_fonts_installed() {
+    [[ -d "${HOME}/.local/share/fonts/Maple Mono" ]] && [[ -d "${HOME}/.local/share/fonts/Maple Mono NF" ]]
+}
+
+if system_fonts_installed || user_fonts_installed; then
+    exit 0
+fi
+
+FONT_DIR="${HOME}/.local/share/fonts"
+TMPDIR="$(mktemp -d)"
+trap 'rm -rf "${TMPDIR}"' EXIT
+
+mkdir -p "${FONT_DIR}/Maple Mono" "${FONT_DIR}/Maple Mono NF"
+
+curl --retry 3 -fsSL -o "${TMPDIR}/MapleMono-Variable.zip" \
+    "https://github.com/subframe7536/maple-font/releases/latest/download/MapleMono-Variable.zip"
+unzip -qo "${TMPDIR}/MapleMono-Variable.zip" -d "${FONT_DIR}/Maple Mono"
+
+curl --retry 3 -fsSL -o "${TMPDIR}/MapleMono-NF.zip" \
+    "https://github.com/subframe7536/maple-font/releases/latest/download/MapleMono-NF.zip"
+unzip -qo "${TMPDIR}/MapleMono-NF.zip" -d "${FONT_DIR}/Maple Mono NF"
+
+fc-cache -f "${FONT_DIR}"
+{{ end -}}

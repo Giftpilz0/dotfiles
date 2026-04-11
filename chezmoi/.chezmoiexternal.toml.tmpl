@@ -1,0 +1,16 @@
+{{- if and (eq .chezmoi.os "linux") (not (env "CHEZMOI_SKIP_ONLINE_DOWNLOADS")) }}
+[".local/bin/yazi"]
+    type = "archive-file"
+    url = "https://github.com/sxyazi/yazi/releases/latest/download/yazi-x86_64-unknown-linux-gnu.zip"
+    stripComponents = 1
+    path = "yazi"
+    executable = true
+    refreshPeriod = "168h"
+
+[".local/bin/sysutil"]
+    type = "archive-file"
+    url = "https://github.com/Giftpilz0/sysutil/releases/download/1.4.0/sysutil_1.4.0_linux_amd64.tar.gz"
+    path = "sysutil"
+    executable = true
+    refreshPeriod = "168h"
+{{- end }}

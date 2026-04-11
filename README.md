@@ -1,92 +1,106 @@
-# Dotfiles
+# Fedora bootc niri
 
-Dotfiles and bootc image for Niri.
+Personal Fedora bootc workstation image and dotfiles.
 
-[![Ansible-Lint](https://github.com/giftpilz0/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/giftpilz0/dotfiles/actions)
+## Quickstart
 
-## Quick Start
-
-### Install
+Apply the current user's dotfiles:
 
 ```bash
-curl -sL https://raw.githubusercontent.com/Giftpilz0/dotfiles/main/install-justfiles.sh | sudo bash
+chezmoi init --apply https://github.com/Giftpilz0/dotfiles.git
+```
+
+Apply the same dotfiles for `root` too:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Giftpilz0/dotfiles/main/install-justfiles.sh | sudo bash -s -- --apply-root
+```
+
+Useful `ujust` commands:
+
+```bash
+ujust --list
 ujust setup
+ujust status
+ujust update
+ujust ansible-apply
+ujust dotfiles-apply
+ujust dotfiles-update
 ```
 
-### Build Bootc Image
+`ujust` uses `gum` for prettier output and, in an interactive terminal, lets you choose which users a command should target.
+
+`ujust setup` runs local Ansible for the selected non-root users and applies dotfiles for the selected users.
+
+## Chezmoi workflow
+
+Check what changed:
 
 ```bash
-# Build container image
+chezmoi status
+chezmoi diff
+```
+
+Update from the repo and reapply:
+
+```bash
+chezmoi update
+```
+
+Edit and apply local changes:
+
+```bash
+chezmoi edit ~/.bashrc
+chezmoi apply
+```
+
+Push your dotfile changes:
+
+```bash
+chezmoi cd
+git status
+git add .
+git commit -m "Update dotfiles"
+git push
+```
+
+## Bootc behavior
+
+- the image build applies the root dotfiles and the system dconf/background settings during the image build
+- new non-root users get dotfiles on first login through the user service `ujust-dotfiles-apply.service`
+- `root` also gets a normal chezmoi source dir and config in the image, so root can inspect and update dotfiles like any other user
+- external tools managed by chezmoi, such as `yazi` and `sysutil`, are downloaded by chezmoi at apply/update time instead of being pre-staged into the image
+
+## Repository layout
+
+- `chezmoi/` - user and root dotfiles
+- `ansible/` - local provisioning
+- `just/` - `ujust` commands
+- `fedora-bootc-niri/` - mkosi bootc image
+
+## Build the image
+
+Requirements:
+
+- `podman`
+- `just`
+- `mkosi >= 26`
+
+Commands:
+
+```bash
+just config
 just build
-
-# Build bootable ISO
-just build-iso
+just load
+just lint
+just installer-iso
 ```
 
-## Available Commands
+`just build` regenerates the mkosi package content from `ansible/vars/package-manifest.json` before mkosi runs.
 
-### Setup
+The installer ISO is built from `fedora-bootc-niri/disk_config/iso.toml`. Storage and user creation stay interactive in Anaconda, and `%post` switches the installed system to `ghcr.io/giftpilz0/fedora-bootc-niri:latest`.
 
-```bash
-ujust setup                    # Interactive system setup
-ujust setup-status             # Check setup status
-```
+## Notes
 
-### System Management
-
-```bash
-ujust --list                   # Show all available commands
-ujust update                   # Update system packages (bootc/dnf + flatpak)
-ujust update-all               # Update ujust + dotfiles + system
-ujust update-ujust             # Update ujust to latest version
-ujust toggle-auto-update       # Toggle automatic system updates
-```
-
-### Dotfiles Management
-
-```bash
-ujust dotfiles-setup           # Deploy dotfiles for users (interactive)
-ujust dotfiles-update          # Sync dotfiles from Git for all users
-ujust dotfiles-status          # Check dotfiles status
-```
-
-### Font Installation
-
-```bash
-ujust fonts-setup              # Install or remove Maple Mono fonts (interactive)
-ujust fonts-status             # Check font status
-```
-
-### Ansible Provisioning
-
-```bash
-ujust ansible-bootstrap        # Run Ansible bootstrap
-ujust ansible-status           # Check Ansible status
-```
-
-### DMS (DankMaterialShell)
-
-```bash
-ujust dms-setup                # Install/uninstall/enable/disable DMS (interactive)
-ujust dms-status               # Check DMS status
-```
-
-### DConf Management
-
-```bash
-ujust dconf-setup              # Apply dconf settings for all users
-ujust dconf-status             # Check dconf status
-```
-
-## Bootc Image
-
-### Rebase from Existing System
-
-```bash
-sudo bootc switch --transport registry ghcr.io/giftpilz0/ublue-niri:latest
-```
-
-## Documentation
-
-For detailed Ansible variable documentation:
-https://giftpilz0.nixpi.de/docs/category/ansible-1
+- Fedora target: `44`
+- Root filesystem default: `btrfs`

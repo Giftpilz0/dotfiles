@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SYSTEM_REPO="/usr/share/ujust"
+USER_REPO=""
+
+if command -v chezmoi >/dev/null 2>&1; then
+    USER_SOURCE="$(chezmoi source-path 2>/dev/null || true)"
+    if [[ -n "$USER_SOURCE" ]]; then
+        USER_REPO="$(git -C "$USER_SOURCE" rev-parse --show-toplevel 2>/dev/null || dirname "$USER_SOURCE")"
+    fi
+fi
+
+if [[ -n "$USER_REPO" && -f "$USER_REPO/just/00-start.just" ]]; then
+    export UJUST_REPO="$USER_REPO"
+    exec just -f "$USER_REPO/just/00-start.just" "$@"
+fi
+
+if [[ -f "$SYSTEM_REPO/just/00-start.just" ]]; then
+    export UJUST_REPO="$SYSTEM_REPO"
+    exec just -f "$SYSTEM_REPO/just/00-start.just" "$@"
+fi
+
+echo "ujust runtime bundle not found." >&2
+echo "Initialize dotfiles with chezmoi first:" >&2
+echo "  chezmoi init --apply https://github.com/Giftpilz0/dotfiles.git" >&2
+exit 1

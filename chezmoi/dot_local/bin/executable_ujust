@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_DIR=""
+if command -v chezmoi >/dev/null 2>&1; then
+    SOURCE_DIR="$(chezmoi source-path 2>/dev/null || true)"
+    if [[ -n "${SOURCE_DIR}" ]]; then
+        REPO_DIR="$(git -C "${SOURCE_DIR}" rev-parse --show-toplevel 2>/dev/null || dirname "${SOURCE_DIR}")"
+    fi
+fi
+
+if [[ -n "${REPO_DIR}" && -f "${REPO_DIR}/just/00-start.just" ]]; then
+    export UJUST_REPO="${REPO_DIR}"
+    exec just -f "${REPO_DIR}/just/00-start.just" "$@"
+fi
+
+if [[ -f /usr/share/ujust/just/00-start.just ]]; then
+    export UJUST_REPO="/usr/share/ujust"
+    exec just -f "/usr/share/ujust/just/00-start.just" "$@"
+fi
+
+echo "ujust runtime bundle not found." >&2
+exit 1

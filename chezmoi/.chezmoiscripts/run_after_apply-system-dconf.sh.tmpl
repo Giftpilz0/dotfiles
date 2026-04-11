@@ -1,0 +1,16 @@
+{{ if and (eq .chezmoi.os "linux") (eq .chezmoi.username "root") -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${CHEZMOI_SKIP_SYSTEM_SETUP:-0}" == "1" ]]; then
+    exit 0
+fi
+
+SOURCE_DIR="${HOME}/.local/share/fedora-bootc-niri/dconf"
+
+install -d -m 0755 /usr/share/backgrounds /etc/dconf/profile /etc/dconf/db/local.d
+install -m 0644 "${SOURCE_DIR}/background" /usr/share/backgrounds/background
+install -m 0644 "${SOURCE_DIR}/profile-user" /etc/dconf/profile/user
+install -m 0644 "${SOURCE_DIR}/dconf.ini" /etc/dconf/db/local.d/dconf.ini
+dconf update
+{{ end -}}

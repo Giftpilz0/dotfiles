@@ -1,0 +1,23 @@
+{{ if and (eq .chezmoi.os "linux") (ne .chezmoi.username "root") -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v systemctl >/dev/null 2>&1; then
+    exit 0
+fi
+
+if [[ -z "${XDG_RUNTIME_DIR:-}" ]] || [[ ! -S "${XDG_RUNTIME_DIR}/bus" ]]; then
+    exit 0
+fi
+
+systemctl --user enable ssh-agent.service >/dev/null 2>&1 || true
+systemctl --user start ssh-agent.service >/dev/null 2>&1 || true
+
+{{ if or (eq (env "CHEZMOI_ENABLE_DMS") "1") (index . "enable_dms") -}}
+systemctl --user enable dms.service dsearch.service >/dev/null 2>&1 || true
+systemctl --user start dms.service dsearch.service >/dev/null 2>&1 || true
+{{ else -}}
+systemctl --user disable dms.service dsearch.service >/dev/null 2>&1 || true
+systemctl --user stop dms.service dsearch.service >/dev/null 2>&1 || true
+{{ end -}}
+{{ end -}}

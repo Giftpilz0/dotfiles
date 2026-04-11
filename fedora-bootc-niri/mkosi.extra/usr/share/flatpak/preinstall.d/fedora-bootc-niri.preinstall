@@ -1,0 +1,7 @@
+[Flatpak Preinstall dev.zed.Zed]
+Branch=stable
+IsRuntime=false
+
+[Flatpak Preinstall io.github.kolunmi.Bazaar]
+Branch=stable
+IsRuntime=false

@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+
+if [[ -z $BASH || -n $POSIXLY_CORRECT || ${0#-} == sh ]]; then
+    return 0
+fi
+
+IS_TOOLBOX=false
+IS_DISTROBOX=false
+IS_CONTAINER=false
+
+if [[ -f /run/.toolboxenv ]]; then
+    IS_TOOLBOX=true
+    IS_CONTAINER=true
+elif [[ -f /run/.containerenv ]] || [[ -f /.dockerenv ]]; then
+    IS_CONTAINER=true
+fi
+if [[ -n "${DISTROBOX_ENTER_PATH:-}" ]] || [[ -n "${CONTAINER_ID:-}" ]]; then
+    IS_DISTROBOX=true
+    IS_CONTAINER=true
+fi
+
+#############################
+# Bash Options
+#############################
+shopt -s autocd        # Auto-cd into directories by name
+shopt -s cdspell       # Correct minor spelling errors in 'cd'
+shopt -s dirspell      # Correct minor spelling errors in directory names
+shopt -s hostcomplete  # Hostname completion after '@'
+shopt -s cmdhist       # Multi-line commands in history as single line
+
+#############################
+# Color Aliases
+#############################
+alias ls='ls --color=auto'
+alias ip='ip --color=auto'
+alias diff='diff --color=auto'
+alias grep='grep --color=auto'
+
+#############################
+# Environment Variables
+#############################
+[[ -x "$(command -v firefox)" ]] && export BROWSER="$(which firefox)"
+[[ -x "$(command -v hx)" ]] && export EDITOR="$(which hx)"
+[[ -x "$(command -v kitty)" ]] && export TERMINAL="$(which kitty)"
+
+export LESS='-R --use-color -Dd+r$Du+b'
+export MANPAGER='less -R --use-color -Dd+r -Du+b'
+export TERM='xterm-256color'
+export XDG_CONFIG_HOME="$HOME/.config"
+export HISTCONTROL="erasedups:ignorespace"
+export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent.socket"
+
+for dir in "$HOME/bin" "$HOME/.local/bin" "$HOME/.config/common/bin" "$HOME/.cargo/bin" "$HOME/go/bin"; do
+    [[ ":$PATH:" != *":$dir:"* ]] && PATH="$dir:$PATH"
+done
+export PATH
+
+#############################
+# Useful Aliases
+#############################
+alias ll='ls -l'
+alias la='ls -a'
+alias ..='cd ..'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+#############################
+# Container-specific settings
+#############################
+if [[ "$IS_CONTAINER" == true ]]; then
+    CONTAINER_INDICATOR=""
+    if [[ "$IS_TOOLBOX" == true ]]; then
+        CONTAINER_INDICATOR="[toolbox] "
+        if [[ -f /etc/profile.d/toolbox.sh ]]; then
+            source /etc/profile.d/toolbox.sh
+        fi
+    elif [[ "$IS_DISTROBOX" == true ]]; then
+        CONTAINER_INDICATOR="[distrobox] "
+    else
+        CONTAINER_INDICATOR="[container] "
+    fi
+fi
+
+#############################
+# Prompt Customization
+#############################
+bash_prompt() {
+    local reset="\e[0m"
+    local red="\e[1;91m"
+    local green="\e[1;32m"
+    local yellow="\e[1;33m"
+    local blue="\e[1;34m"
+    local cyan="\e[01;36m"
+    local magenta="\e[1;35m"
+
+    local user_color="$cyan"
+    [[ $UID == 0 ]] && user_color="$red"
+
+    local container_prefix=""
+    if [[ "$IS_CONTAINER" == true ]]; then
+        if [[ "$IS_TOOLBOX" == true ]]; then
+            container_prefix="\[$magenta\][⬢ toolbox] "
+        elif [[ "$IS_DISTROBOX" == true ]]; then
+            container_prefix="\[$magenta\][⬢ distrobox] "
+        else
+            container_prefix="\[$magenta\][⬢ container] "
+        fi
+    fi
+
+    parse_git_branch() {
+        git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+    }
+
+    local dir_color="\$(if [[ -w \$PWD ]]; then echo \"\[$blue\]\"; else echo \"\[$yellow\]\"; fi)\w"
+
+    PS1="\[$green\]┌─ \[$user_color\]\u: ${container_prefix}$dir_color\[$green\]\n└─$\[$red\]\$(parse_git_branch) \[$reset\]"
+}
+
+bash_prompt

@@ -1,0 +1,29 @@
+{
+    "default": [
+        {
+            "type": "reject"
+        }
+    ],
+    "transports": {
+        "docker": {
+            "ghcr.io/giftpilz0": [
+                {
+                    "type": "sigstoreSigned",
+                    "keyPaths": [
+                        "/usr/share/pki/containers/fedora-bootc-niri.pub"
+                    ],
+                    "signedIdentity": {
+                        "type": "matchRepository"
+                    }
+                }
+            ]
+        },
+        "containers-storage": {
+            "": [
+                {
+                    "type": "insecureAcceptAnything"
+                }
+            ]
+        }
+    }
+}

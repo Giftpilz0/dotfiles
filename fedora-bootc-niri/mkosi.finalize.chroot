@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -xeuo pipefail
+
+RPM_MUT_DB="/usr/lib/sysimage/rpm"
+RPM_OSTREE_DB="/usr/share/rpm"
+mkdir -p "$RPM_OSTREE_DB"
+rsync -av "$RPM_MUT_DB/" "$RPM_OSTREE_DB/" 1>&2 2>/dev/null
+
+# Restore the standard bootc/ostree root layout expected by bootc container lint
+# and by the deployed image.
+sed -i 's|^HOME=.*|HOME=/var/home|' /etc/default/useradd
+
+rm -rf /home /root /usr/local /srv /opt /mnt /boot
+mkdir -p /sysroot/ostree /boot /var /var/roothome
+ln -sfn sysroot/ostree /ostree
+ln -sfnT var/home /home
+ln -sfnT var/mnt /mnt
+ln -sfnT var/opt /opt
+ln -sfnT var/roothome /root
+ln -sfnT var/srv /srv
+ln -sfnT ../../var/usrlocal /usr/local
+
+rm -rf /root/.local/share/chezmoi
+install -d /root/.local/share
+rsync -a /usr/share/factory/dotfiles-repo/ /root/.local/share/chezmoi/
+git -C /root/.local/share/chezmoi init -q
+git -C /root/.local/share/chezmoi config user.name "mkosi"
+git -C /root/.local/share/chezmoi config user.email "mkosi@localhost"
+git -C /root/.local/share/chezmoi add .
+git -C /root/.local/share/chezmoi commit -qm snapshot
+git -C /root/.local/share/chezmoi remote add origin "https://github.com/Giftpilz0/dotfiles.git"
+install -d /root/.config/chezmoi
+printf '[data]\n    enable_dms = false\n' > /root/.config/chezmoi/chezmoi.toml
+HOME=/root \
+XDG_CONFIG_HOME=/root/.config \
+XDG_DATA_HOME=/root/.local/share \
+CHEZMOI_SKIP_ONLINE_DOWNLOADS=1 \
+chezmoi -S /root/.local/share/chezmoi/chezmoi -W /root/.local/share/chezmoi --destination /root apply --force
+install -d /root/.local/state/ujust
+touch /root/.local/state/ujust/dotfiles-applied
+
+FACTORY_ROOT="/usr/share/factory/var/roothome"
+ROOT_HOME_TMPFILES="/usr/lib/tmpfiles.d/60-fedora-bootc-niri-roothome.conf"
+install -d "${FACTORY_ROOT}"
+rsync -a --delete /var/roothome/ "${FACTORY_ROOT}/"
+
+{
+    echo "# Seed root home from factory defaults on first boot."
+    shopt -s dotglob nullglob
+    for path in "${FACTORY_ROOT}"/*; do
+        name="$(basename "${path}")"
+        printf 'C /var/roothome/%s - - - - /usr/share/factory/var/roothome/%s\n' "${name}" "${name}"
+    done
+} > "${ROOT_HOME_TMPFILES}"
+
+find /var/roothome -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
+rm -rf /usr/share/factory/dotfiles-repo
+stat "${ROOT_HOME_TMPFILES}"
+stat /etc/dconf/profile/user
+stat /etc/dconf/db/local.d/dconf.ini
+stat /usr/share/backgrounds/background

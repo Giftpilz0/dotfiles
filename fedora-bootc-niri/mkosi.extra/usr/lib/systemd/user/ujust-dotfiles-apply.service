@@ -1,0 +1,12 @@
+[Unit]
+Description=Apply dotfiles on first login
+ConditionPathExists=/usr/bin/chezmoi
+ConditionPathExists=!%h/.local/state/ujust/dotfiles-applied
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/ujust _dotfiles-apply-current-user
+RemainAfterExit=yes
+
+[Install]
+WantedBy=default.target

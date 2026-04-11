@@ -1,0 +1,6 @@
+---
+collections:
+  - name: git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/general
+    type: git
+  - name: git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/server
+    type: git

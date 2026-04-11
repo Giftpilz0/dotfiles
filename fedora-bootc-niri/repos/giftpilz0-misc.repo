@@ -1,0 +1,10 @@
+[copr:copr.fedorainfracloud.org:giftpilz0:misc]
+name=Copr repo for misc owned by giftpilz0
+baseurl=https://download.copr.fedorainfracloud.org/results/giftpilz0/misc/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/giftpilz0/misc/pubkey.gpg
+repo_gpgcheck=0
+enabled=0
+enabled_metadata=1

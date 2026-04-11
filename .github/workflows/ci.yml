@@ -3,6 +3,9 @@ name: Ansible lint
 
 # yamllint disable-line rule:truthy
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -17,7 +20,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: 3.14
+          python-version: "3.14"
 
       - name: Install dependencies
         run: |
@@ -25,8 +28,8 @@ jobs:
 
       - name: Install Ansible collections
         run: |
-          ansible-galaxy collection install git+https://github.com/Giftpilz0/ansible-collection-general.git
-          ansible-galaxy collection install git+https://github.com/Giftpilz0/ansible-collection-server.git
+          ansible-galaxy collection install "git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/general"
+          ansible-galaxy collection install "git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/server"
 
       - name: Lint playbook
         run: |

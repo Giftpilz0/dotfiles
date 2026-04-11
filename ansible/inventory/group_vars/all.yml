@@ -1,4 +1,6 @@
 ---
+package_manifest: "{{ lookup('file', playbook_dir ~ '/vars/package-manifest.json') | from_json }}"
+
 ######################################
 ### giftpilz0.general.git
 
@@ -26,6 +28,29 @@ git_config:
 ### giftpilz0.general.timezone
 
 timezone_timezone: Europe/Berlin
+
+######################################
+### giftpilz0.general.packages
+
+packages_python_package:
+  - pre-commit
+
+packages_flatpak_repos: "{{ package_manifest.flatpak_repos }}"
+packages_flatpak_repos_remove: "{{ package_manifest.flatpak_repos_remove }}"
+packages_flatpak_package: "{{ package_manifest.flatpak_packages }}"
+
+######################################
+### giftpilz0.general.firewalld
+
+firewalld_zones_define:
+  - zone: work
+    source: 192.168.10.0/24
+    target: DROP
+
+firewalld_rules_services:
+  - service: ssh
+    zone: work
+    state: disabled
 
 ######################################
 ### giftpilz0.general.user
