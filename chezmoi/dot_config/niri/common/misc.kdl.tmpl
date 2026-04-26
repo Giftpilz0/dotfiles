@@ -1,0 +1,32 @@
+environment {
+    QT_QPA_PLATFORM "wayland"
+    QT_QPA_PLATFORMTHEME "gtk3"
+    QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+    SSH_AUTH_SOCK "/run/user/{{ .chezmoi.uid }}/ssh-agent.socket"
+    XDG_CURRENT_DESKTOP "niri"
+}
+
+recent-windows {
+    binds {
+        Alt+Tab         { next-window scope="output"; }
+        Alt+Shift+Tab   { previous-window scope="output"; }
+        Alt+grave       { next-window filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+}
+
+prefer-no-csd
+
+screenshot-path "~/Bilder/Screenshots/Screenshot_%Y-%m-%d_%H-%M-%S.png"
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+switch-events {
+    lid-close { spawn "dms" "ipc" "call" "lock" "lock"; }
+}

@@ -1,0 +1,145 @@
+# ----------- # Interface
+
+[org/gnome/mutter]
+center-new-windows=true
+
+[org/gnome/desktop/wm/preferences]
+button-layout='appmenu:minimize,maximize,close'
+focus-mode='mouse'
+
+[org/gnome/desktop/background]
+picture-uri='file://{{ .chezmoi.homeDir }}/.config/quickshell/wallpapers/2.jpg'
+picture-uri-dark='file://{{ .chezmoi.homeDir }}/.config/quickshell/wallpapers/2.jpg'
+
+[org/gnome/desktop/interface]
+clock-show-seconds=true
+clock-show-weekday=true
+color-scheme='prefer-dark'
+show-battery-percentage=true
+toolkit-accessibility=false
+
+# ----------- # Input
+
+[org/gnome/desktop/peripherals/mouse]
+speed=-0.875
+
+[org/gnome/desktop/peripherals/touchpad]
+click-method='areas'
+tap-to-click=true
+two-finger-scrolling-enabled=true
+
+[org/gnome/desktop/input-sources]
+mru-sources=[('xkb', 'de')]
+sources=[('xkb', 'de')]
+xkb-options=@as []
+
+# ----------- # Power
+
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-timeout=3600
+sleep-inactive-ac-type='nothing'
+
+# ----------- # Notification
+
+[org/gnome/desktop/notifications/application/org-freedesktop-problems-applet]
+application-id='org.freedesktop.problems.applet.desktop'
+enable=false
+
+# ----------- # Nautilus
+
+[org/gnome/desktop/privacy]
+old-files-age=uint32 0
+recent-files-max-age=-1
+remember-recent-files=false
+remove-old-temp-files=true
+remove-old-trash-files=true
+
+[org/gnome/nautilus/preferences]
+show-create-link=true
+migrated-gtk-settings=true
+
+# ----------- # GnomeText
+
+[org/gnome/TextEditor]
+highlight-current-line=true
+indent-style='space'
+show-line-numbers=true
+show-right-margin=true
+spellcheck=false
+tab-width=uint32 2
+wrap-text=false
+
+# ----------- # GnomeTerminal
+
+[org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9]
+background-transparency-percent=4
+font='Source Code Pro 12'
+use-system-font=false
+use-transparent-background=true
+
+[org/gnome/Ptyxis]
+default-profile-uuid='ebce8fbe8d9447c4c054bbb26728a0d7'
+font-name='Source Code Pro 12'
+profile-uuids=['ebce8fbe8d9447c4c054bbb26728a0d7']
+use-system-font=false
+
+# ----------- # GnomeCalendar
+
+[org/gnome/desktop/calendar]
+show-weekdate=true
+
+# ----------- # GnomeSoftware
+
+[org/gnome/software]
+first-run=false
+
+# ----------- # Shortcuts
+
+[org/gnome/settings-daemon/plugins/media-keys]
+custom-keybindings=['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/']
+www=['<Super>b']
+
+[org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0]
+binding='<Super>Return'
+command='ptyxis'
+name='Terminal'
+
+[org/gnome/desktop/wm/keybindings]
+close=['<Super>q']
+
+# ----------- # Applayout
+
+[org/gnome/shell]
+app-picker-layout=[{'a72321d1-9cc9-4892-830c-a26017e8b14e': <{'position': <0>}>, 'c736210e-c02f-4256-a253-b862d4d08f2d': <{'position': <1>}>, '66bda18f-efde-4182-88fe-767ed565c121': <{'position': <2>}>, '190dd5a5-18a5-4c99-92e6-7f84fd34afa1': <{'position': <3>}>, 'e7f931dc-8f8e-40e5-825e-2c2f6d432d6c': <{'position': <4>}>, '110b4a51-f20f-4d44-85c0-a074cf58cab6': <{'position': <5>}>, '9abf8310-6094-4948-a4e9-8d0ee8c855d2': <{'position': <6>}>}]
+favorite-apps=['org.gnome.Ptyxis.desktop', 'org.mozilla.firefox.desktop', 'org.gnome.Nautilus.desktop', 'libreoffice-writer.desktop', 'libreoffice-calc.desktop', 'libreoffice-impress.desktop', 'org.gnome.Software.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Boxes.desktop', 'org.keepassxc.KeePassXC.desktop']
+
+[org/gnome/desktop/app-folders]
+folder-children=['190dd5a5-18a5-4c99-92e6-7f84fd34afa1', 'a72321d1-9cc9-4892-830c-a26017e8b14e', 'c736210e-c02f-4256-a253-b862d4d08f2d', '9abf8310-6094-4948-a4e9-8d0ee8c855d2', '110b4a51-f20f-4d44-85c0-a074cf58cab6', '66bda18f-efde-4182-88fe-767ed565c121', 'e7f931dc-8f8e-40e5-825e-2c2f6d432d6c']
+
+[org/gnome/desktop/app-folders/folders/110b4a51-f20f-4d44-85c0-a074cf58cab6]
+apps=['org.freedesktop.GnomeAbrt.desktop', 'org.gnome.Logs.desktop', 'gnome-system-monitor.desktop', 'htop.desktop', 'org.gnome.SystemMonitor.desktop']
+name='Überwachung'
+
+[org/gnome/desktop/app-folders/folders/190dd5a5-18a5-4c99-92e6-7f84fd34afa1]
+apps=['org.gnome.eog.desktop', 'org.gnome.Photos.desktop', 'org.gnome.Totem.desktop', 'org.gnome.Maps.desktop', 'org.gnome.Weather.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Rhythmbox3.desktop', 'org.gnome.Tour.desktop', 'org.gnome.Connections.desktop', 'org.gnome.Loupe.desktop', 'org.gnome.Snapshot.desktop']
+name='Gnome'
+
+[org/gnome/desktop/app-folders/folders/66bda18f-efde-4182-88fe-767ed565c121]
+apps=['org.gnome.Settings.desktop', 'yelp.desktop']
+name='Einstellungen & Hilfe'
+
+[org/gnome/desktop/app-folders/folders/9abf8310-6094-4948-a4e9-8d0ee8c855d2]
+apps=['org.gnome.font-viewer.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Cheese.desktop', 'Helix.desktop']
+name='Zubehör'
+
+[org/gnome/desktop/app-folders/folders/a72321d1-9cc9-4892-830c-a26017e8b14e]
+apps=['org.gnome.Contacts.desktop', 'org.gnome.Calendar.desktop', 'org.gnome.Evince.desktop', 'org.gnome.Calculator.desktop', 'simple-scan.desktop']
+name='Büro'
+
+[org/gnome/desktop/app-folders/folders/c736210e-c02f-4256-a253-b862d4d08f2d]
+apps=['org.gnome.DiskUtility.desktop', 'org.gnome.baobab.desktop', 'org.gnome.FileRoller.desktop', 'org.fedoraproject.MediaWriter.desktop']
+name='Datenverwaltung'
+
+[org/gnome/desktop/app-folders/folders/e7f931dc-8f8e-40e5-825e-2c2f6d432d6c]
+apps=['nwg-panel-config.desktop', 'kitty.desktop']
+name='Hyprland'

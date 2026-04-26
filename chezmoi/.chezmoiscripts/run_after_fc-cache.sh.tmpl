@@ -1,0 +1,10 @@
+{{ if ne .chezmoi.username "root" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v fc-cache >/dev/null 2>&1; then
+    exit 0
+fi
+
+fc-cache -f "${HOME}/.local/share/fonts"
+{{ end -}}

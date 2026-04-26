@@ -1,0 +1,38 @@
+---
+- name: Load variables
+  hosts: all
+  tasks:
+    - name: Check if OSTree marker exists
+      ansible.builtin.stat:
+        path: /run/ostree-booted
+      register: ostree_booted
+
+    - name: Set system flavor facts
+      ansible.builtin.set_fact:
+        system_is_ostree: "{{ ostree_booted.stat.exists }}"
+
+    - name: Check if variables file exists
+      ansible.builtin.stat:
+        path: "vars/{{ ansible_os_family }}.yml"
+      register: vars_file
+
+    - name: Load variables file
+      ansible.builtin.include_vars: "vars/{{ ansible_os_family }}.yml"
+      when: vars_file.stat.exists
+
+- name: Configure hosts - common
+  hosts: all
+  roles:
+    - role: giftpilz0.general.update
+      when: not system_is_ostree | default(false)
+    - role: giftpilz0.general.packages
+    - role: giftpilz0.general.timezone
+    - role: giftpilz0.general.git
+
+- name: Configure hosts - mutable extras
+  hosts: all
+  roles:
+    - role: giftpilz0.general.autoupgrade
+      when: not system_is_ostree | default(false)
+    - role: giftpilz0.general.firewalld
+      when: not system_is_ostree | default(false)

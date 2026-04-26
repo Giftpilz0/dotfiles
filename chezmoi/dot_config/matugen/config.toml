@@ -1,0 +1,18 @@
+# https://github.com/AvengeMedia/DankMaterialShell/tree/master/quickshell/matugen/templates
+
+[config]
+
+# Wofi
+[templates.wofi]
+input_path = '~/.config/matugen/templates/common.css'
+output_path = '~/.config/wofi/matugen/colors.css'
+
+# Kitty
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty.conf'
+output_path = '~/.config/kitty/matugen/colors.conf'
+
+# Fuzzel
+[templates.fuzzel]
+input_path = '~/.config/matugen/templates/fuzzel.ini'
+output_path = '~/.config/fuzzel/colors.ini'

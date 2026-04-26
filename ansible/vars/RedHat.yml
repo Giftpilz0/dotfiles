@@ -1,0 +1,85 @@
+---
+packages_rpmfusion_package_state: skip
+
+packages_copr_repos:
+  - name: giftpilz0/misc
+    state: enabled
+  - name: avengemedia/dms
+    state: enabled
+
+packages_additional_package:
+  # Package groups
+  - "@base-graphical"
+  - "@firefox"
+  - "@fonts"
+  - "@hardware-support"
+  - "@libreoffice"
+  - "@multimedia"
+  - "@networkmanager-submodules"
+  - "@printing"
+  # Language packs
+  - langpacks-de
+  - langpacks-en
+  # System / base tools
+  - ansible
+  - audit
+  - bolt
+  - chezmoi
+  - dbus-daemon
+  - distribution-gpg-keys
+  - fastfetch
+  - firewalld
+  - flatpak
+  - fprintd
+  - fprintd-pam
+  - git-core
+  - gitui
+  - gnome-disk-utility
+  - gnome-keyring
+  - gnome-keyring-pam
+  - gnupg2-scdaemon
+  - gvfs-archive
+  - gvfs-mtp
+  - gvfs-nfs
+  - gvfs-smb
+  - helix
+  - htop
+  - jq
+  - keepassxc
+  - kernel-modules-extra
+  - nautilus
+  - NetworkManager-openconnect
+  - NetworkManager-tui
+  - nmap
+  - pcsc-lite
+  - podman
+  - rsync
+  - sqlite
+  - tar
+  - tpm2-tools
+  - tree
+  - tuned
+  - tuned-ppd
+  - zram-generator-defaults
+  - zstd
+  # Fonts
+  - fontawesome-fonts-all
+  - google-noto-emoji-fonts
+  - material-icons-fonts
+  # Applications for windowmanager
+  - adw-gtk3-theme
+  - fontawesome-fonts-all
+  - fuzzel
+  - gnome-keyring
+  - gnome-keyring-pam
+  - google-noto-emoji-fonts
+  - kitty
+  - material-icons-fonts
+  - xdg-desktop-portal-gnome
+  - xwayland-satellite
+  # Copr
+  - dms
+  - matugen-git
+  - niri-git
+  - quickshell-git
+  - waypipe-git

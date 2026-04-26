@@ -1,0 +1,56 @@
+// Workaround (doesnt work when included as file (conflicts))
+layout {
+    center-focused-column "on-overflow"
+    always-center-single-column
+    empty-workspace-above-first
+    default-column-display "normal"
+
+    default-column-width { proportion 0.5; }
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    shadow {
+        on
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#0007"
+    }
+
+    tab-indicator {
+        place-within-column
+        gap 5
+        width 5
+        length total-proportion=0.5
+        position "left"
+        gaps-between-tabs 2
+        corner-radius 8
+    }
+}
+
+
+// Include common files
+include "common/animations.kdl"
+include "common/gestures.kdl"
+include "common/input.kdl"
+include "common/misc.kdl"
+include "common/outputs.kdl"
+include "common/rules.kdl"
+
+// Include dms files
+include "dms/colors.kdl"
+include "dms/layout.kdl"
+include "dms/alttab.kdl"
+include "dms/binds.kdl"
+include "dms/cursor.kdl"
