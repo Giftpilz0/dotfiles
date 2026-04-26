@@ -1,0 +1,75 @@
+binds {
+    Mod+0 { focus-workspace 10; }
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Ctrl+Page_Down { move-column-to-workspace-down; }
+    Mod+Ctrl+Page_Up { move-column-to-workspace-up; }
+    Mod+Ctrl+WheelScrollDown { move-column-to-workspace-down; }
+    Mod+Ctrl+WheelScrollUp { move-column-to-workspace-up; }
+    Mod+Page_Down { focus-workspace-down; }
+    Mod+Page_Up { focus-workspace-up; }
+    Mod+Shift+0 { move-column-to-workspace 10; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+WheelScrollDown { focus-workspace-down; }
+    Mod+WheelScrollUp { focus-workspace-up; }
+    Ctrl+Print hotkey-overlay-title="Screenshot Window" { screenshot-window; }
+    Mod+Alt+Left hotkey-overlay-title="Focus Monitor Left" { focus-monitor-left; }
+    Mod+Alt+Right hotkey-overlay-title="Focus Monitor Right" { focus-monitor-right; }
+    Mod+Comma { consume-window-into-column; }
+    Mod+Ctrl+Down { move-window-down; }
+    Mod+Ctrl+End { move-column-to-last; }
+    Mod+Ctrl+Home { move-column-to-first; }
+    Mod+Ctrl+Left { move-column-left; }
+    Mod+Ctrl+Minus { set-window-height "-10%"; }
+    Mod+Ctrl+Plus { set-window-height "+10%"; }
+    Mod+Ctrl+R { switch-preset-window-height; }
+    Mod+Ctrl+Right { move-column-right; }
+    Mod+Ctrl+Shift+Plus { maximize-column; }
+    Mod+Ctrl+Up { move-window-up; }
+    Mod+Ctrl+WheelScrollLeft { move-column-left; }
+    Mod+Ctrl+WheelScrollRight { move-column-right; }
+    Mod+Down { focus-window-down; }
+    Mod+End { focus-column-last; }
+    Mod+Home { focus-column-first; }
+    Mod+Left { focus-column-left; }
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Period { expel-window-from-column; }
+    Mod+Plus { set-column-width "+10%"; }
+    Mod+R { switch-preset-window-width; }
+    Mod+Right { focus-column-right; }
+    Mod+Shift+Ctrl+Down hotkey-overlay-title="Move to Monitor Down" { move-column-to-monitor-down; }
+    Mod+Shift+Ctrl+Left hotkey-overlay-title="Move to Monitor Left" { move-column-to-monitor-left; }
+    Mod+Shift+Ctrl+Right hotkey-overlay-title="Move to Monitor Right" { move-column-to-monitor-right; }
+    Mod+Shift+Ctrl+Up hotkey-overlay-title="Move to Monitor Up" { move-column-to-monitor-up; }
+    Mod+Up { focus-window-up; }
+    Mod+WheelScrollLeft { focus-column-left; }
+    Mod+WheelScrollRight { focus-column-right; }
+    Mod+c { center-column; }
+    Mod+f { toggle-window-floating; }
+    Mod+q { close-window; }
+    Mod+w { toggle-column-tabbed-display; }
+    Print hotkey-overlay-title="Screenshot (Interactive)" { screenshot; }
+    Shift+Print hotkey-overlay-title="Screenshot Screen" { screenshot-screen; }
+    Mod+m hotkey-overlay-title="Quit Niri" { quit; }
+    Mod+Alt+Space hotkey-overlay-title="Launch Waypipe" { spawn "sysutil" "waypipelauncher"; }
+    Mod+Return hotkey-overlay-title="Kitty" { spawn "kitty"; }
+    Mod+b hotkey-overlay-title="Firefox" { spawn "firefox"; }
+    Mod+d hotkey-overlay-title="Nautilus" { spawn "nautilus"; }
+    Alt+Space { spawn "sysutil" "sshlauncher" "--terminal" "kitty env TERM=xterm-256color ssh"; }
+    Mod+Tab hotkey-overlay-title="Toggle Overview" { toggle-overview; }
+}
