@@ -1,0 +1,15 @@
+{
+  "id": "sshLauncher",
+  "name": "SSH Launcher",
+  "description": "Launch SSH connections from ~/.ssh/config",
+  "version": "1.0.0",
+  "author": "Giftpilz0",
+  "icon": "terminal",
+  "type": "launcher",
+  "trigger": "ssh",
+  "viewMode": "list",
+  "viewModeEnforced": true,
+  "component": "./sshLauncher.qml",
+  "settings": "./sshLauncherSettings.qml",
+  "permissions": ["process", "settings_read", "settings_write"]
+}

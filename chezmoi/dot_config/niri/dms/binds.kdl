@@ -8,8 +8,8 @@ binds {
     Mod+Return hotkey-overlay-title="Open Terminal (Alt)" { spawn "kitty"; }
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Mod+D hotkey-overlay-title="Files" { spawn "nautilus"; }
-    Mod+Alt+Space hotkey-overlay-title="Launch Waypipe" { spawn "sysutil" "waypipelauncher"; }
-    Alt+Space { spawn "sysutil" "sshlauncher" "--terminal" "kitty env TERM=xterm-256color ssh"; }
+    Mod+Alt+Space hotkey-overlay-title="Launch Waypipe" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "wp "; }
+    Alt+Space hotkey-overlay-title="SSH Launcher" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "ssh "; }
     Mod+Space hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle";
     }
