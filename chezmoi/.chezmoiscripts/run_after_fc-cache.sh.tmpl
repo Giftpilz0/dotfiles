@@ -1,10 +1,17 @@
 {{ if ne .chezmoi.username "root" -}}
 #!/usr/bin/env bash
+# Rebuild font cache after dotfiles apply
 set -euo pipefail
 
-if ! command -v fc-cache >/dev/null 2>&1; then
-    exit 0
-fi
+# ── guards ────────────────────────────────────────────────────────────────────
 
-fc-cache -f "${HOME}/.local/share/fonts"
+command -v gum      >/dev/null 2>&1 || exit 0
+command -v fc-cache >/dev/null 2>&1 || exit 0
+
+# ── main ──────────────────────────────────────────────────────────────────────
+
+gum spin --spinner dot --title "Rebuilding font cache…" -- \
+    fc-cache -f "${HOME}/.local/share/fonts"
+
+gum log --level info "Font cache rebuilt."
 {{ end -}}

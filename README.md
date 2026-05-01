@@ -5,18 +5,30 @@ Works on **Fedora Workstation** (mutable) and **Fedora Silverblue** (rpm-ostree/
 
 ## Quickstart
 
+### 1. Install chezmoi
+
+**Fedora Workstation:**
+
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Giftpilz0/dotfiles/main/setup.sh)
+sudo dnf install -y chezmoi
 ```
 
-`setup.sh` will:
+**Fedora Silverblue:**
 
-1. Install missing dependencies (`chezmoi`, `ansible`, `git`) via `dnf` or `rpm-ostree`
-1. Prompt to select users for Ansible provisioning and dotfiles
-1. Run Ansible (packages, COPR repos, flatpaks) for each selected user
-1. Deploy `chezmoi-init.service` so dotfiles are applied automatically on first login
+```bash
+rpm-ostree install chezmoi && systemctl reboot
+```
 
-> **Silverblue:** if new packages were layered, a reboot is required before first login.
+### 2. Apply dotfiles
+
+```bash
+chezmoi init --apply https://github.com/Giftpilz0/dotfiles.git
+```
+
+chezmoi will prompt whether to run the Ansible playbook (package installation, COPR repos, system configuration).
+Ansible itself will be installed automatically if missing.
+
+> **Silverblue:** if Ansible installs packages via `rpm-ostree`, a reboot is required — then re-run `chezmoi apply`.
 
 ## chezmoi workflow
 

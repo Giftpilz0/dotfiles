@@ -1,20 +1,22 @@
 {{ if ne .chezmoi.username "root" -}}
 #!/usr/bin/env bash
+# Apply dconf settings from dotfiles
 set -euo pipefail
 
-if ! command -v dconf >/dev/null 2>&1; then
-    exit 0
-fi
+# ── guards ────────────────────────────────────────────────────────────────────
+
+command -v gum   >/dev/null 2>&1 || exit 0
+command -v dconf >/dev/null 2>&1 || exit 0
 
 # Requires a running user dbus session
-if [[ -z "${XDG_RUNTIME_DIR:-}" ]] || [[ ! -S "${XDG_RUNTIME_DIR}/bus" ]]; then
-    exit 0
-fi
+[[ -n "${XDG_RUNTIME_DIR:-}" && -S "${XDG_RUNTIME_DIR}/bus" ]] || exit 0
 
 DCONF_SETTINGS="${HOME}/.local/share/gnome-settings/dconf.ini"
-if [[ ! -f "${DCONF_SETTINGS}" ]]; then
-    exit 0
-fi
+[[ -f "${DCONF_SETTINGS}" ]] || exit 0
 
+# ── main ──────────────────────────────────────────────────────────────────────
+
+gum log --level info "Applying dconf settings…"
 dconf load / < "${DCONF_SETTINGS}"
+gum log --level info "dconf settings applied."
 {{ end -}}

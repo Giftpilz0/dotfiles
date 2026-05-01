@@ -13,11 +13,11 @@
 
     - name: Check if variables file exists
       ansible.builtin.stat:
-        path: "vars/{{ ansible_os_family }}.yml"
+        path: "vars/{{ ansible_facts['os_family'] }}.yml"
       register: vars_file
 
     - name: Load variables file
-      ansible.builtin.include_vars: "vars/{{ ansible_os_family }}.yml"
+      ansible.builtin.include_vars: "vars/{{ ansible_facts['os_family'] }}.yml"
       when: vars_file.stat.exists
 
 - name: Configure hosts - common

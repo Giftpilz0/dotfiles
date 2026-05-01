@@ -24,7 +24,6 @@ packages_additional_package:
   - ansible
   - audit
   - bolt
-  - chezmoi
   - dbus-daemon
   - distribution-gpg-keys
   - fastfetch
@@ -38,6 +37,7 @@ packages_additional_package:
   - gnome-keyring
   - gnome-keyring-pam
   - gnupg2-scdaemon
+  - gum
   - gvfs-archive
   - gvfs-mtp
   - gvfs-nfs
@@ -69,7 +69,6 @@ packages_additional_package:
   # Applications for windowmanager
   - adw-gtk3-theme
   - fontawesome-fonts-all
-  - fuzzel
   - gnome-keyring
   - gnome-keyring-pam
   - google-noto-emoji-fonts
@@ -81,5 +80,4 @@ packages_additional_package:
   - dms
   - matugen-git
   - niri-git
-  - quickshell-git
   - waypipe-git

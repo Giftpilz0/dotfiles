@@ -1,0 +1,53 @@
+{{ if ne .chezmoi.username "root" -}}
+#!/usr/bin/env bash
+# Run Ansible provisioning — asked interactively on every apply
+set -euo pipefail
+
+# ── guards ────────────────────────────────────────────────────────────────────
+
+# Skip when gum is unavailable (e.g. pending ostree reboot after dep install)
+command -v gum >/dev/null 2>&1 || exit 0
+
+[[ -t 0 && -t 1 ]] || exit 0
+
+command -v ansible >/dev/null 2>&1 \
+    || { gum log --level warn "ansible not found — reboot may be pending."; exit 0; }
+
+ANSIBLE_DIR="{{ .chezmoi.sourceDir }}/../ansible"
+[[ -d "${ANSIBLE_DIR}" ]] \
+    || { gum log --level warn "Ansible directory not found: ${ANSIBLE_DIR}"; exit 0; }
+
+# ── prompt ────────────────────────────────────────────────────────────────────
+
+gum confirm "Run Ansible provisioning?" --default=false \
+    || { gum log --level info "Skipped Ansible."; exit 0; }
+
+# ── git config inputs ─────────────────────────────────────────────────────────
+
+DEFAULT_GIT_NAME="$(git config --global user.name  2>/dev/null || true)"
+DEFAULT_GIT_EMAIL="$(git config --global user.email 2>/dev/null || true)"
+
+gum_name=(gum input --prompt "Git user.name  › " --placeholder "Your full name")
+[[ -n "${DEFAULT_GIT_NAME}"  ]] && gum_name+=(--value "${DEFAULT_GIT_NAME}")
+GIT_NAME="$("${gum_name[@]}")"
+
+gum_email=(gum input --prompt "Git user.email › " --placeholder "you@example.com")
+[[ -n "${DEFAULT_GIT_EMAIL}" ]] && gum_email+=(--value "${DEFAULT_GIT_EMAIL}")
+GIT_EMAIL="$("${gum_email[@]}")"
+
+# ── run ───────────────────────────────────────────────────────────────────────
+
+gum spin --spinner dot --title "Installing Ansible collections…" -- \
+    ansible-galaxy collection install -r "${ANSIBLE_DIR}/requirements.yml"
+
+gum log --level info "Running Ansible playbook…"
+cd "${ANSIBLE_DIR}"
+EXTRA_VARS="$(jq -n \
+    --arg user_username "{{ .chezmoi.username }}" \
+    --arg git_user_name  "${GIT_NAME}" \
+    --arg git_user_email "${GIT_EMAIL}" \
+    '{user_username: $user_username, git_user_name: $git_user_name, git_user_email: $git_user_email}')"
+ansible-playbook --connection=local play.yml --extra-vars "${EXTRA_VARS}"
+
+gum log --level info "Ansible provisioning complete."
+{{ end -}}

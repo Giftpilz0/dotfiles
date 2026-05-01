@@ -16,10 +16,10 @@ git_config_system:
 
 git_config:
   - key: user.name
-    value: "Moritz Schmidt"
+    value: "{{ git_user_name }}"
     scope: global
   - key: user.email
-    value: "schmidtmoritz404@gmail.com"
+    value: "{{ git_user_email }}"
     scope: global
 
 ######################################
@@ -45,8 +45,10 @@ packages_flatpak_repos_remove:
 packages_flatpak_package:
   - name: dev.zed.Zed
     state: present
+    remote: flathub
   - name: io.github.kolunmi.Bazaar
     state: present
+    remote: flathub
 
 ######################################
 ### giftpilz0.general.firewalld

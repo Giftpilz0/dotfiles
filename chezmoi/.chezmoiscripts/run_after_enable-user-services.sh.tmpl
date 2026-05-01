@@ -1,18 +1,23 @@
 {{ if ne .chezmoi.username "root" -}}
 #!/usr/bin/env bash
+# Enable and start user systemd services
 set -euo pipefail
 
-if ! command -v systemctl >/dev/null 2>&1; then
-    exit 0
-fi
+# ── guards ────────────────────────────────────────────────────────────────────
 
-if [[ -z "${XDG_RUNTIME_DIR:-}" ]] || [[ ! -S "${XDG_RUNTIME_DIR}/bus" ]]; then
-    exit 0
-fi
+command -v gum      >/dev/null 2>&1 || exit 0
+command -v systemctl >/dev/null 2>&1 || exit 0
 
-systemctl --user enable ssh-agent.service >/dev/null 2>&1 || true
-systemctl --user start ssh-agent.service >/dev/null 2>&1 || true
+# Requires a running user dbus session
+[[ -n "${XDG_RUNTIME_DIR:-}" && -S "${XDG_RUNTIME_DIR}/bus" ]] || exit 0
 
-systemctl --user enable dms.service dsearch.service >/dev/null 2>&1 || true
-systemctl --user start dms.service dsearch.service >/dev/null 2>&1 || true
+# ── main ──────────────────────────────────────────────────────────────────────
+
+gum log --level info "Enabling user services…"
+
+systemctl --user enable --now ssh-agent.service   >/dev/null 2>&1 || true
+
+systemctl --user enable --now dms.service dsearch.service >/dev/null 2>&1 || true
+
+gum log --level info "User services enabled."
 {{ end -}}

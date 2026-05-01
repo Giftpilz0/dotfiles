@@ -1,0 +1,43 @@
+{{ if ne .chezmoi.username "root" -}}
+#!/usr/bin/env bash
+# Bootstrap dependencies: gum, ansible, git, python3-dnf, dms
+set -euo pipefail
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+msg() { printf '  \033[34m→\033[0m %s\n' "$*"; }
+ok()  { printf '  \033[32m✓\033[0m %s\n' "$*"; }
+err() { printf '  \033[31m✗\033[0m %s\n' "$*" >&2; }
+
+is_ostree() { [[ -f /run/ostree-booted ]]; }
+
+# ── check missing packages ────────────────────────────────────────────────────
+
+missing=()
+rpm -q python3-dnf >/dev/null 2>&1 || missing+=(python3-dnf)
+command -v gum     >/dev/null 2>&1 || missing+=(gum)
+command -v ansible >/dev/null 2>&1 || missing+=(ansible)
+command -v git     >/dev/null 2>&1 || missing+=(git)
+command -v dms     >/dev/null 2>&1 || missing+=(dms)
+
+[[ ${#missing[@]} -eq 0 ]] && { ok "All dependencies present."; exit 0; }
+msg "Installing missing packages: ${missing[*]}"
+
+# ── install ───────────────────────────────────────────────────────────────────
+
+if is_ostree; then
+    printf '%s\n' "${missing[@]}" | grep -qx 'dms' \
+        && rpm-ostree copr enable -y avengemedia/dms
+    rpm-ostree install -y "${missing[@]}"
+    ok "Packages staged via rpm-ostree — reboot then re-run: chezmoi apply"
+    exit 0
+elif command -v dnf >/dev/null 2>&1; then
+    printf '%s\n' "${missing[@]}" | grep -qx 'dms' \
+        && sudo dnf copr enable -y avengemedia/dms
+    sudo dnf install -y "${missing[@]}"
+    ok "Dependencies installed."
+else
+    err "No supported package manager found."
+    exit 1
+fi
+{{ end -}}
