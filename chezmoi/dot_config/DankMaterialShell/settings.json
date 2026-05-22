@@ -170,12 +170,6 @@
   "greeterEnableFprint": false,
   "greeterEnableU2f": false,
   "greeterWallpaperPath": "",
-  "greeterUse24HourClock": true,
-  "greeterShowSeconds": false,
-  "greeterPadHours12Hour": false,
-  "greeterLockDateFormat": "",
-  "greeterFontFamily": "",
-  "greeterWallpaperFillMode": "",
   "mediaSize": 1,
   "appLauncherViewMode": "list",
   "spotlightModalViewMode": "list",
@@ -264,6 +258,10 @@
   "qtThemingEnabled": false,
   "syncModeWithPortal": true,
   "terminalsAlwaysDark": false,
+  "muxType": "tmux",
+  "muxUseCustomCommand": false,
+  "muxCustomCommand": "",
+  "muxSessionFilter": "",
   "runDmsMatugenTemplates": true,
   "matugenTemplateGtk": true,
   "matugenTemplateNiri": true,
@@ -382,7 +380,30 @@
   "displayNameMode": "model",
   "screenPreferences": {},
   "showOnLastDisplay": {},
-  "niriOutputSettings": {},
+  "niriOutputSettings": {
+    "LG Display 0x0790 Unknown": {
+      "vrrOnDemand": true
+    },
+    "Dell Inc. Dell U4919DW JTSZWP2": {
+      "layout": {
+        "defaultColumnWidth": {
+          "type": "proportion",
+          "value": 0.5
+        },
+        "presetColumnWidths": [
+          {
+            "type": "proportion",
+            "value": 0.25
+          },
+          {
+            "type": "proportion",
+            "value": 0.5
+          }
+        ]
+      },
+      "vrrOnDemand": true
+    }
+  },
   "hyprlandOutputSettings": {},
   "displayProfiles": {},
   "activeDisplayProfile": {},
@@ -404,7 +425,11 @@
           "id": "launcherButton",
           "enabled": true
         },
-        "workspaceSwitcher"
+        "workspaceSwitcher",
+        {
+          "id": "idleInhibitor",
+          "enabled": true
+        }
       ],
       "centerWidgets": [
         "music",
