@@ -45,7 +45,6 @@ include "common/animations.kdl"
 include "common/gestures.kdl"
 include "common/input.kdl"
 include "common/misc.kdl"
-include "common/outputs.kdl"
 include "common/rules.kdl"
 
 // Include dms files
