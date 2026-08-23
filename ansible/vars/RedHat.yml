@@ -78,6 +78,9 @@ packages_additional_package:
   - xwayland-satellite
   # Copr
   - dms
+  - dms-greeter
+  - danksearch
+  - dankcalendar-git
   - matugen-git
   - niri-git
   - waypipe-git
