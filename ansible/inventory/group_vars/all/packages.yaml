@@ -1,0 +1,100 @@
+---
+packages_copr_repos:
+  - name: giftpilz0/misc
+    state: enabled
+  - name: avengemedia/dms
+    state: enabled
+
+packages_additional_package:
+  - "@base-graphical"
+  - "@firefox"
+  - "@fonts"
+  - "@hardware-support"
+  - "@libreoffice"
+  - "@multimedia"
+  - "@networkmanager-submodules"
+  - "@printing"
+  - langpacks-de
+  - langpacks-en
+  - ansible
+  - audit
+  - bolt
+  - dbus-daemon
+  - distribution-gpg-keys
+  - fastfetch
+  - firewalld
+  - flatpak
+  - fprintd
+  - fprintd-pam
+  - git-core
+  - gitui
+  - gnome-disk-utility
+  - gnupg2-scdaemon
+  - gum
+  - gvfs-archive
+  - gvfs-mtp
+  - gvfs-nfs
+  - gvfs-smb
+  - helix
+  - htop
+  - jq
+  - keepassxc
+  - kernel-modules-extra
+  - nautilus
+  - NetworkManager-openconnect
+  - NetworkManager-tui
+  - nmap
+  - pcsc-lite
+  - podman
+  - rsync
+  - sqlite
+  - tar
+  - tpm2-tools
+  - tree
+  - tuned
+  - tuned-ppd
+  - zram-generator-defaults
+  - zstd
+  # yazi
+  - 7zip
+  - fd-find
+  - file
+  - fzf
+  - ImageMagick
+  - poppler-utils
+  - ripgrep
+  - wl-clipboard
+  - zoxide
+  - fontawesome-fonts-all
+  - google-noto-emoji-fonts
+  - material-icons-fonts
+  # niri session
+  - adw-gtk3-theme
+  - gnome-keyring
+  - gnome-keyring-pam
+  - kitty
+  - xdg-desktop-portal-gnome
+  - xwayland-satellite
+  # Copr
+  - dms
+  - dms-greeter
+  - danksearch
+  - dankcalendar-git
+  - matugen-git
+  - niri-git
+  - waypipe-git
+
+packages_python_package:
+  - pre-commit
+
+packages_flatpak_repos_remove:
+  - fedora
+  - fedora-testing
+
+packages_flatpak_package:
+  - name: dev.zed.Zed
+    state: present
+    remote: flathub
+  - name: io.github.kolunmi.Bazaar
+    state: present
+    remote: flathub

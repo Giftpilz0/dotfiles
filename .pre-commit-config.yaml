@@ -1,0 +1,29 @@
+---
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-case-conflict
+      - id: end-of-file-fixer
+        # Written by DMS itself
+        exclude: ^chezmoi/dot_config/(dms|niri/dms)/
+      - id: trailing-whitespace
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 1.0.0
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-frontmatter
+          - mdformat-footnote
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+
+  - repo: https://github.com/ansible/ansible-lint
+    rev: v26.10.1
+    hooks:
+      - id: ansible-lint

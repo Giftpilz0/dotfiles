@@ -1,0 +1,19 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>Giftpilz0/shared"],
+  "ansible-galaxy": {
+    "enabled": false
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Git commit pins annotated with '# renovate: datasource=git-refs depName=<repo url> branch=<branch>' on the line above",
+      "managerFilePatterns": [
+        "/^ansible/requirements\\.yaml$/"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>git-refs) depName=(?<depName>[^\\s]+) branch=(?<currentValue>[^\\s]+)\\n\\s*version:\\s*(?<currentDigest>[0-9a-f]{40})"
+      ]
+    }
+  ]
+}

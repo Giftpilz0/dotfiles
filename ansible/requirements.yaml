@@ -1,0 +1,6 @@
+---
+collections:
+  - name: git+https://github.com/Giftpilz0/homelab.git#/ansible_collections/giftpilz0/general
+    type: git
+    # renovate: datasource=git-refs depName=https://github.com/Giftpilz0/homelab.git branch=main
+    version: 9931335816e58cf8a5c24f1d2482bcc0074221d7

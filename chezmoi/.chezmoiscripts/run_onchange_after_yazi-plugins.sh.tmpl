@@ -1,0 +1,12 @@
+{{ if ne .chezmoi.username "root" -}}
+#!/usr/bin/env bash
+# package.toml hash: {{ include "dot_config/yazi/package.toml" | sha256sum }}
+set -euo pipefail
+
+command -v gum >/dev/null 2>&1 || exit 0
+YA="${HOME}/.local/bin/ya"
+[[ -x "${YA}" ]] || exit 0
+
+gum spin --spinner dot --title "Installing yazi plugins…" -- "${YA}" pkg install
+gum log --level info "Yazi plugins installed."
+{{ end -}}

@@ -1,0 +1,17 @@
+{{ if and (ne .chezmoi.username "root") (get . "razer") -}}
+#!/usr/bin/env bash
+# Reruns when the downloaded binary changes (picked up on the apply after the download):
+# razerctl hash: {{ output "sh" "-c" "sha256sum \"$HOME/.local/bin/razerctl\" 2>/dev/null || true" | trim }}
+set -euo pipefail
+
+command -v gum >/dev/null 2>&1 || exit 0
+RAZERCTL="${HOME}/.local/bin/razerctl"
+[[ -x "${RAZERCTL}" ]] || exit 0
+
+# Needs the user dbus session for the user service
+[[ -n "${XDG_RUNTIME_DIR:-}" && -S "${XDG_RUNTIME_DIR}/bus" ]] || exit 0
+
+# Installs the udev rule (sudo only when it changed) and (re)starts the user service
+gum log --level info "Installing razerctl…"
+"${RAZERCTL}" install
+{{ end -}}

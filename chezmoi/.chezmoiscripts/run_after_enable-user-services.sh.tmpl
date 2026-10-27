@@ -1,0 +1,23 @@
+{{ if ne .chezmoi.username "root" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+command -v gum      >/dev/null 2>&1 || exit 0
+command -v systemctl >/dev/null 2>&1 || exit 0
+
+# Needs the user dbus session
+[[ -n "${XDG_RUNTIME_DIR:-}" && -S "${XDG_RUNTIME_DIR}/bus" ]] || exit 0
+
+gum log --level info "Enabling user services…"
+
+if ! systemctl --user is-enabled --quiet ssh-agent.socket; then
+    # Replace the standalone ssh-agent.service these dotfiles used to ship
+    systemctl --user daemon-reload
+    systemctl --user disable --now ssh-agent.service >/dev/null 2>&1 || true
+    systemctl --user enable --now ssh-agent.socket   >/dev/null 2>&1 || true
+fi
+
+systemctl --user enable --now dms.service dsearch.service >/dev/null 2>&1 || true
+
+gum log --level info "User services enabled."
+{{ end -}}

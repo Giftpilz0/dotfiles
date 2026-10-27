@@ -1,0 +1,33 @@
+{
+  "ui_font_family": ".ZedSans",
+  "buffer_font_family": "Maple Mono",
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark",
+  },
+  "use_system_path_prompts": false,
+  "redact_private_values": false,
+  "private_files": [
+    "**/.env*",
+    "**/*.pem",
+    "**/*.key",
+    "**/*.cert",
+    "**/*.crt",
+    "**/secrets.yml",
+  ],
+  "title_bar": {
+    "show_sign_in": false,
+  },
+  "tabs": {
+    "file_icons": true,
+  },
+  "remove_trailing_whitespace_on_save": true,
+  "format_on_save": "on",
+  "formatter": "auto",
+  "helix_mode": false,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+}

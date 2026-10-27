@@ -1,0 +1,16 @@
+set bell-style none
+set show-all-if-ambiguous on
+set colored-stats On
+set visible-stats On
+set mark-symlinked-directories On
+set colored-completion-prefix On
+set menu-complete-display-prefix On
+
+# Alt+S: prepend sudo
+"\es": "\C-asudo \C-e"
+
+# Alt+C: clear
+"\ec": "\C-e\C-Uclear\C-m"
+
+# Alt+M: prepend man
+"\em": "\C-aman \C-e"

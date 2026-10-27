@@ -1,0 +1,11 @@
+# Built-in DMS templates: https://github.com/AvengeMedia/DankMaterialShell/tree/master/quickshell/matugen/templates
+
+[config]
+
+[templates.kitty]
+input_path = '~/.config/matugen/templates/kitty.conf'
+output_path = '~/.config/kitty/matugen/colors.conf'
+
+[templates.yazi]
+input_path = '~/.config/matugen/templates/yazi-theme.toml'
+output_path = '~/.config/yazi/theme.toml'

@@ -1,0 +1,27 @@
+{{ if ne .chezmoi.username "root" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+command -v gum >/dev/null 2>&1 || exit 0
+
+[[ -t 0 && -t 1 ]] || exit 0
+
+command -v ansible >/dev/null 2>&1 \
+    || { gum log --level warn "ansible not found."; exit 0; }
+
+ANSIBLE_DIR="{{ .chezmoi.sourceDir }}/../ansible"
+[[ -d "${ANSIBLE_DIR}" ]] \
+    || { gum log --level warn "Ansible directory not found: ${ANSIBLE_DIR}"; exit 0; }
+
+gum confirm "Run Ansible provisioning?" --default=false \
+    || { gum log --level info "Skipped Ansible."; exit 0; }
+
+gum spin --spinner dot --title "Installing Ansible collections…" -- \
+    ansible-galaxy collection install -r "${ANSIBLE_DIR}/requirements.yaml"
+
+gum log --level info "Running Ansible playbook…"
+cd "${ANSIBLE_DIR}"
+ansible-playbook playbook.yaml
+
+gum log --level info "Ansible provisioning complete."
+{{ end -}}

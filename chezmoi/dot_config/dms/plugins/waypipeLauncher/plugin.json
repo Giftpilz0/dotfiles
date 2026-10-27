@@ -1,0 +1,15 @@
+{
+  "id": "waypipeLauncher",
+  "name": "Waypipe Launcher",
+  "description": "Launch Waypipe connections from ~/.ssh/waypipe.yaml",
+  "version": "1.0.0",
+  "author": "Giftpilz0",
+  "icon": "cast",
+  "type": "launcher",
+  "trigger": "wp",
+  "viewMode": "list",
+  "viewModeEnforced": true,
+  "component": "./waypipeLauncher.qml",
+  "settings": "./waypipeLauncherSettings.qml",
+  "permissions": ["process", "settings_read", "settings_write"]
+}

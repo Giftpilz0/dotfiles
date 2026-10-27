@@ -1,0 +1,8 @@
+{{- $name := promptStringOnce . "name" "Git user.name" -}}
+{{- $email := promptStringOnce . "email" "Git user.email" -}}
+{{- $razer := promptBoolOnce . "razer" "Install razerctl (Razer DeathAdder V2 Pro)" false -}}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    razer = {{ $razer }}

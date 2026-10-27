@@ -1,0 +1,8 @@
+---
+exclude_paths:
+  - .ansible/
+  - chezmoi/
+
+skip_list:
+  - yaml[comments]
+  - yaml[line-length]
