@@ -12,7 +12,7 @@ sudo dnf install -y chezmoi
 chezmoi init --apply https://github.com/Giftpilz0/dotfiles.git
 ```
 
-- The first init asks for git name, email and whether to install [razerctl](https://github.com/Giftpilz0/razerctl);
+- The first init asks for git name, email and whether to install [peripheralctl](https://github.com/Giftpilz0/peripheralctl);
   change the answers with `chezmoi init --prompt`.
 - Every apply offers to run the Ansible playbook in `ansible/` (packages, COPR repos, system config).
 - Colors come from the wallpaper (DMS/matugen); the `create_*` color files are only written on a fresh machine.

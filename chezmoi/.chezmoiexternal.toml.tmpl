@@ -37,11 +37,11 @@
     executable = true
     refreshPeriod = "168h"
 
-{{- if get . "razer" }}
-[".local/bin/razerctl"]
+{{- if get . "peripheralctl" }}
+[".local/bin/peripheralctl"]
     type = "archive-file"
-    url = "https://github.com/Giftpilz0/razerctl/releases/latest/download/razerctl_linux_amd64.tar.gz"
-    path = "razerctl"
+    url = "https://github.com/Giftpilz0/peripheralctl/releases/latest/download/peripheralctl_linux_amd64.tar.gz"
+    path = "peripheralctl"
     executable = true
     refreshPeriod = "168h"
 {{- end }}
