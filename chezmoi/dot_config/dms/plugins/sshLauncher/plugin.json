@@ -1,8 +1,8 @@
 {
   "id": "sshLauncher",
   "name": "SSH Launcher",
-  "description": "Launch SSH connections from ~/.ssh/config",
-  "version": "1.0.0",
+  "description": "Launch SSH sessions and Waypipe apps from ~/.ssh/config",
+  "version": "2.0.0",
   "author": "Giftpilz0",
   "icon": "terminal",
   "type": "launcher",

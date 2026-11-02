@@ -1,2 +1,4 @@
 # Replaced by the ssh-agent.socket unit shipped by openssh-clients
 .config/systemd/user/ssh-agent.service
+
+.config/dms/plugins/waypipeLauncher

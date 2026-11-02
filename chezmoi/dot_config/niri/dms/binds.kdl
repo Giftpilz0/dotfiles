@@ -8,8 +8,10 @@ binds {
     Mod+Return hotkey-overlay-title="Open Terminal (Alt)" { spawn "kitty"; }
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Mod+D hotkey-overlay-title="Files" { spawn "nautilus"; }
-    Mod+Alt+Space hotkey-overlay-title="Launch Waypipe" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "wp "; }
-    Alt+Space hotkey-overlay-title="SSH Launcher" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "ssh "; }
+    Alt+Space hotkey-overlay-title="SSH & Waypipe" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "ssh "; }
+    Mod+Alt+Space hotkey-overlay-title="Projects" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "~ "; }
+    Mod+P hotkey-overlay-title="Projects" { spawn "dms" "ipc" "call" "spotlight" "openQuery" "~ "; }
+    Mod+Shift+Space hotkey-overlay-title="Search Files" { spawn "dms" "ipc" "call" "spotlight" "toggleWith" "files"; }
     Mod+Space hotkey-overlay-title="Application Launcher" {
         spawn "dms" "ipc" "call" "spotlight" "toggle";
     }
@@ -26,6 +28,7 @@ binds {
     }
     Mod+N hotkey-overlay-title="Notification Center" { spawn "dms" "ipc" "call" "notifications" "toggle"; }
     Mod+Shift+N hotkey-overlay-title="Notepad" { spawn "dms" "ipc" "call" "notepad" "toggle"; }
+    Mod+Shift+C hotkey-overlay-title="Color Picker" { spawn "dms" "ipc" "call" "color-picker" "toggle"; }
 
     // === Security ===
     Mod+L hotkey-overlay-title="Lock Screen" {
@@ -49,24 +52,24 @@ binds {
     XF86AudioMicMute allow-when-locked=true {
         spawn "dms" "ipc" "call" "audio" "micmute";
     }
-		XF86AudioPause allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "playPause";
-		}
-		XF86AudioPlay allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "playPause";
-		}
-		XF86AudioPrev allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "previous";
-		}
-		XF86AudioNext allow-when-locked=true {
-		    spawn "dms" "ipc" "call" "mpris" "next";
-		}
-        Ctrl+XF86AudioRaiseVolume allow-when-locked=true {
-            spawn "dms" "ipc" "call" "mpris" "increment" "3";
-        }
-        Ctrl+XF86AudioLowerVolume allow-when-locked=true {
-            spawn "dms" "ipc" "call" "mpris" "decrement" "3";
-        }
+    XF86AudioPause allow-when-locked=true {
+        spawn "dms" "ipc" "call" "mpris" "playPause";
+    }
+    XF86AudioPlay allow-when-locked=true {
+        spawn "dms" "ipc" "call" "mpris" "playPause";
+    }
+    XF86AudioPrev allow-when-locked=true {
+        spawn "dms" "ipc" "call" "mpris" "previous";
+    }
+    XF86AudioNext allow-when-locked=true {
+        spawn "dms" "ipc" "call" "mpris" "next";
+    }
+    Ctrl+XF86AudioRaiseVolume allow-when-locked=true {
+        spawn "dms" "ipc" "call" "mpris" "increment" "3";
+    }
+    Ctrl+XF86AudioLowerVolume allow-when-locked=true {
+        spawn "dms" "ipc" "call" "mpris" "decrement" "3";
+    }
 
     // === Brightness Controls ===
     XF86MonBrightnessUp allow-when-locked=true {
@@ -216,6 +219,7 @@ binds {
     Shift+Print { screenshot-screen; }
     Ctrl+Print { screenshot-screen; }
     Alt+Print { screenshot-window; }
+
     // === System Controls ===
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
     Mod+Shift+P { power-off-monitors; }

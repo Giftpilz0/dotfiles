@@ -13,6 +13,7 @@ PluginSettings {
     readonly property string defaultSshCommand: "ssh"
     readonly property string defaultSshConfigPath: "~/.ssh/config"
     readonly property string defaultSshTerm: "xterm-256color"
+    readonly property string defaultWaypipeCommand: "waypipe"
 
     StyledText {
         width: parent.width
@@ -24,7 +25,7 @@ PluginSettings {
 
     StyledText {
         width: parent.width
-        text: "Reads hosts from ~/.ssh/config. Supports Include directives and '# fuzzel-users: user1,user2' comments for additional users per host."
+        text: "Reads hosts from ~/.ssh/config, including Include files. Comments inside a Host block add extra users ('# fuzzel-users: root, admin'), waypipe apps ('# waypipe: firefox', repeatable) and waypipe options ('# waypipe-args: -c zstd=15')."
         font.pixelSize: Theme.fontSizeSmall
         color: Theme.surfaceVariantText
         wrapMode: Text.WordWrap
@@ -79,9 +80,17 @@ PluginSettings {
     StringSetting {
         settingKey: "ssh_term"
         label: "TERM Override"
-        description: "TERM env var set for SSH sessions (default: xterm-256color). Avoids broken prompts when the remote lacks your local terminal's terminfo."
+        description: "TERM env var set for SSH sessions (default: xterm-256color). Avoids broken prompts when the remote lacks your local terminal's terminfo. Leave empty to keep your TERM."
         placeholder: defaultSshTerm
         defaultValue: defaultSshTerm
+    }
+
+    StringSetting {
+        settingKey: "waypipe_command"
+        label: "Waypipe Command"
+        description: "Waypipe binary used for '# waypipe:' apps"
+        placeholder: defaultWaypipeCommand
+        defaultValue: defaultWaypipeCommand
     }
 
     Rectangle {

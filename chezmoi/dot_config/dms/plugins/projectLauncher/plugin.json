@@ -1,0 +1,15 @@
+{
+  "id": "projectLauncher",
+  "name": "Project Launcher",
+  "description": "Open git repositories found under your home directory",
+  "version": "1.0.0",
+  "author": "Giftpilz0",
+  "icon": "code",
+  "type": "launcher",
+  "trigger": "~",
+  "viewMode": "list",
+  "viewModeEnforced": true,
+  "component": "./projectLauncher.qml",
+  "settings": "./projectLauncherSettings.qml",
+  "permissions": ["process", "settings_read", "settings_write"]
+}

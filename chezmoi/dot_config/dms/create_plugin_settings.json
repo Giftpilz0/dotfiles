@@ -1,0 +1,8 @@
+{
+  "projectLauncher": {
+    "enabled": true
+  },
+  "sshLauncher": {
+    "enabled": true
+  }
+}
