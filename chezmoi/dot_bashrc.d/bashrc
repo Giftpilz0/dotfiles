@@ -38,6 +38,8 @@ export LESS='-R --use-color -Dd+r$Du+b'
 export MANPAGER='less -R --use-color -Dd+r -Du+b'
 export XDG_CONFIG_HOME="$HOME/.config"
 export HISTCONTROL="erasedups:ignorespace"
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 
 # Keep an agent that is already set (e.g. forwarded over SSH)
 ssh_agent_sock="${XDG_RUNTIME_DIR:-/run/user/$UID}/ssh-agent.socket"
