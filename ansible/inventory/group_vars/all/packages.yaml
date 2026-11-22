@@ -2,7 +2,7 @@
 packages_copr_repos:
   - name: giftpilz0/misc
     state: enabled
-  - name: avengemedia/dms
+  - name: duxlabs/dms
     state: enabled
 
 packages_additional_package:
@@ -31,7 +31,6 @@ packages_additional_package:
   - gnome-disk-utility
   - gnupg2-scdaemon
   - gum
-  - gvfs-archive
   - gvfs-mtp
   - gvfs-nfs
   - gvfs-smb
